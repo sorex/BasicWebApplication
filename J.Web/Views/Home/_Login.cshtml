@@ -1,0 +1,91 @@
+﻿<!-- Login -->
+<div class="modal fade" id="Login_dialog" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h2 class="modal-title">用户登录</h2>
+			</div>
+			<div class="modal-body">
+				<div class="input-group input-group-lg">
+					<span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
+					<input type="text" class="form-control" id="Login_dialog_LoginName" placeholder="登录名">
+				</div>
+				<br />
+				<div class="input-group input-group-lg">
+					<span class="input-group-addon"><i class="fa fa-fw fa-unlock-alt"></i></span>
+					<input type="password" class="form-control" id="Login_dialog_LoginPassword" placeholder="密码">
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" id="Login_dialog_Login" class="btn btn-lg btn-warning" data-loading-text="正在登录...">登录</button>
+				<button type="button" id="Login_dialog_Register" class="btn btn-lg btn-primary" data-dismiss="modal">注册</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="Register_dialog" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h2 class="modal-title">用户注册</h2>
+			</div>
+			<div class="modal-body form-horizontal">
+				<div class="form-group">
+					<label for="Register_dialog_LoginName" class="col-sm-3 control-label">登录名</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="Register_dialog_LoginName" placeholder="输入登录名">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="Register_dialog_Email" class="col-sm-3 control-label">电子邮箱</label>
+					<div class="col-sm-9">
+						<input type="email" class="form-control" id="Registerdialog_Email" placeholder="输入电子邮箱">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="Register_dialog_LoginPassword" class="col-sm-3 control-label">请设置密码</label>
+					<div class="col-sm-9">
+						<input type="password" class="form-control" id="Register_dialog_LoginPassword" placeholder="输入密码">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="Register_dialog_LoginPasswordConfirm" class="col-sm-3 control-label">请确认密码</label>
+					<div class="col-sm-9">
+						<input type="password" class="form-control" id="Register_dialog_LoginPasswordConfirm" placeholder="输入密码">
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" id="Register_dialog_Login" class="btn btn-lg btn-warning" data-dismiss="modal">登录</button>
+				<button type="button" id="Register_dialog_Register" class="btn btn-lg btn-primary" data-loading-text="正在注册...">立即注册</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<script type="text/javascript">
+	$(function () {
+		$("#Login_dialog_Login").click(function () { 
+			$(this).button("loading");
+			setTimeout("$('#Login_dialog_Login').button('reset'); ", 3000);//延时3秒
+		});
+
+		$("#Login_dialog_Register").click(function () {
+			$("#Register_dialog").modal('show');
+		});
+
+		$("#Register_dialog_Login").click(function () {
+			$("#Login_dialog").modal('show');
+		});
+
+		$("#Register_dialog_Register").click(function () {
+			$(this).button("loading");
+			setTimeout("$('#Register_dialog_Register').button('reset'); ", 3000);//延时3秒
+		});
+
+	});
+</script>
