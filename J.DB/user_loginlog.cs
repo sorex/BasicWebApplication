@@ -12,7 +12,7 @@ namespace J.DB
     using System;
     using System.Collections.Generic;
     
-    public partial class user_loginlogs
+    public partial class user_loginlog
     {
         public int ID { get; set; }
         public string userID { get; set; }

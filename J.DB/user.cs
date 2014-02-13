@@ -16,7 +16,7 @@ namespace J.DB
     {
         public user()
         {
-            this.user_loginlogs = new HashSet<user_loginlogs>();
+            this.user_loginlogs = new HashSet<user_loginlog>();
         }
     
         public string GUID { get; set; }
@@ -26,6 +26,6 @@ namespace J.DB
         public string Email { get; set; }
         public Nullable<System.DateTime> CreateDateTime { get; set; }
     
-        public virtual ICollection<user_loginlogs> user_loginlogs { get; set; }
+        public virtual ICollection<user_loginlog> user_loginlogs { get; set; }
     }
 }

@@ -25,7 +25,7 @@ namespace J.DB
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<user_loginlogs> user_loginlogs { get; set; }
+        public virtual DbSet<user_loginlog> user_loginlog { get; set; }
         public virtual DbSet<user> users { get; set; }
     }
 }

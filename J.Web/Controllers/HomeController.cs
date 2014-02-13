@@ -19,11 +19,6 @@ namespace J.Web.Controllers
 		{
 			return View();
 		}
-		[RequireHttps]
-		public ActionResult Login()
-		{
-			return PartialView();
-		}
 
 		[HttpPost]
 		public ActionResult LoginCheck(string LoginName, string LoginPassword)
@@ -31,9 +26,5 @@ namespace J.Web.Controllers
 			return View();
 		}
 
-		public ActionResult Register()
-		{
-			return PartialView();
-		}
 	}
 }

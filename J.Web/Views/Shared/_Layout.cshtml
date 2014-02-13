@@ -54,7 +54,7 @@
 	</footer>
 	@if (Session[J.Logic.Basic.SessionConfig.CurrentUser] == null)
 {
-		@Html.Partial("~/Views/Home/_Login.cshtml")
+		@Html.Partial("~/Views/Home/_LoginRegister.cshtml")
 }
 	
 	@RenderSection("scripts", required: false)

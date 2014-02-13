@@ -74,7 +74,7 @@
     <Compile Include="user.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="user_loginlogs.cs">
+    <Compile Include="user_loginlog.cs">
       <DependentUpon>DBModel.tt</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -100,9 +100,14 @@
       <LastGenOutput>DBModel.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
+    <None Include="Scripts\webdb.ndm" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Scripts\webdb.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

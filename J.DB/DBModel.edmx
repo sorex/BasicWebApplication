@@ -49,14 +49,14 @@
     <edmx:ConceptualModels>
       <Schema Namespace="DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="DBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="user_loginlogs" EntityType="DBModel.user_loginlogs" />
+          <EntitySet Name="user_loginlog" EntityType="DBModel.user_loginlog" />
           <EntitySet Name="users" EntityType="DBModel.user" />
           <AssociationSet Name="user_loginlogs_ibfk_1" Association="DBModel.user_loginlogs_ibfk_1">
             <End Role="user" EntitySet="users" />
-            <End Role="user_loginlogs" EntitySet="user_loginlogs" />
+            <End Role="user_loginlogs" EntitySet="user_loginlog" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="user_loginlogs">
+        <EntityType Name="user_loginlog">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -79,7 +79,7 @@
         </EntityType>
         <Association Name="user_loginlogs_ibfk_1">
           <End Type="DBModel.user" Role="user" Multiplicity="0..1" />
-          <End Type="DBModel.user_loginlogs" Role="user_loginlogs" Multiplicity="*" />
+          <End Type="DBModel.user_loginlog" Role="user_loginlogs" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="user">
               <PropertyRef Name="GUID" />
@@ -95,8 +95,8 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="DBModelStoreContainer" CdmEntityContainer="DBEntities">
-          <EntitySetMapping Name="user_loginlogs">
-            <EntityTypeMapping TypeName="DBModel.user_loginlogs">
+          <EntitySetMapping Name="user_loginlog">
+            <EntityTypeMapping TypeName="DBModel.user_loginlog">
               <MappingFragment StoreEntitySet="user_loginlogs">
                 <ScalarProperty Name="LoginDateTime" ColumnName="LoginDateTime" />
                 <ScalarProperty Name="userID" ColumnName="userID" />

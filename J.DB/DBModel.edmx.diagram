@@ -4,9 +4,9 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="2045f74deffb40d485e20de83feb1b77" Name="Diagram1">
-        <EntityTypeShape EntityType="DBModel.user_loginlogs" Width="1.5" PointX="3" PointY="1.25" />
-        <EntityTypeShape EntityType="DBModel.user" Width="1.5" PointX="0.75" PointY="1" />
+      <Diagram DiagramId="2045f74deffb40d485e20de83feb1b77" Name="Diagram1" DisplayType="true">
+        <EntityTypeShape EntityType="DBModel.user_loginlog" Width="2.75" PointX="4.25" PointY="1.25" />
+        <EntityTypeShape EntityType="DBModel.user" Width="2.75" PointX="0.75" PointY="1" />
         <AssociationConnector Association="DBModel.user_loginlogs_ibfk_1" />
       </Diagram>
     </edmx:Diagrams>

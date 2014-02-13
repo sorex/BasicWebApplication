@@ -277,7 +277,7 @@
     <Content Include="Views\Sample\datetimepicker.cshtml" />
     <Content Include="Scripts\jquery.uploadify.min.js.map" />
     <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\_Login.cshtml" />
+    <Content Include="Views\Home\_LoginRegister.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\J.DB\J.DB.csproj">
