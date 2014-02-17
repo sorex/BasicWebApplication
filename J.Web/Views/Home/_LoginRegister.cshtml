@@ -14,8 +14,14 @@
 				<br />
 				<div class="input-group input-group-lg">
 					<span class="input-group-addon"><i class="fa fa-fw fa-unlock-alt"></i></span>
-					<input type="password" class="form-control" id="Login_dialog_LoginPassword" placeholder="密码">
+					<input type="password" class="form-control" id="Login_dialog_LoginPassword" placeholder="登录密码">
 				</div>
+				<br />
+				<div class="alert alert-danger alert-dismissable hidden" id="Login_dialog_alert">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					<p id="Login_dialog_alert_message"></p>
+				</div>
+
 			</div>
 			<div class="modal-footer">
 				<button type="button" id="Login_dialog_Login" class="btn btn-lg btn-warning" data-loading-text="正在登录...">登录</button>
@@ -48,16 +54,16 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="Register_dialog_LoginPassword" class="col-sm-3 control-label">请设置密码</label>
+					<label for="Register_dialog_LoginPassword" class="col-sm-3 control-label">登录密码</label>
 					<div class="col-sm-9">
-						<input type="password" class="form-control" id="Register_dialog_LoginPassword" placeholder="输入密码">
+						<input type="password" class="form-control" id="Register_dialog_LoginPassword" placeholder="输入登录密码">
 						<p id="Register_dialog_LoginPassword_help" class="help-block hidden"></p>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="Register_dialog_LoginPasswordConfirm" class="col-sm-3 control-label">请确认密码</label>
+					<label for="Register_dialog_LoginPasswordConfirm" class="col-sm-3 control-label">确认密码</label>
 					<div class="col-sm-9">
-						<input type="password" class="form-control" id="Register_dialog_LoginPasswordConfirm" placeholder="输入密码">
+						<input type="password" class="form-control" id="Register_dialog_LoginPasswordConfirm" placeholder="再次输入密码">
 						<p id="Register_dialog_LoginPasswordConfirm_help" class="help-block hidden"></p>
 					</div>
 				</div>
@@ -74,8 +80,36 @@
 <script type="text/javascript">
 	$(function () {
 		$("#Login_dialog_Login").click(function () {
+			$("#Login_dialog_alert_message").html("");
+			$("#Login_dialog_alert").addClass('hidden');
+
 			$(this).button("loading");
-			setTimeout("$('#Login_dialog_Login').button('reset'); ", 3000);//延时3秒
+			//setTimeout("$('#Login_dialog_Login').button('reset'); ", 3000);//延时3秒
+			$.ajax({
+				type: "post",
+				cache: false,
+				url: "@Url.Action("Login", "Home")",
+				data: {
+					LoginName: $.base64.encode($("#Login_dialog_LoginName").val()),
+					LoginPassword: $.base64.encode($("#Login_dialog_LoginPassword").val())
+				},
+				success: function (data) {
+					var dataobj = JSON.parse(data);
+					if (dataobj.code > 0) {
+						window.location.reload();
+					}
+					else {
+						$("#Login_dialog_alert_message").html(dataobj.msg);
+						$("#Login_dialog_alert").removeClass('hidden');
+					}
+					$('#Login_dialog_Login').button('reset');
+				},
+				error: function (XMLHttpRequest, textStatus, errorThrown) {
+					$("#Login_dialog_alert_message").html("网络错误，请重试！");
+					$("#Login_dialog_alert").removeClass('hidden');
+					$('#Login_dialog_Login').button('reset');
+				}
+			});
 		});
 
 		$("#Login_dialog_Register").click(function () {
@@ -90,6 +124,7 @@
 			$(this).button("loading");
 			setTimeout("$('#Register_dialog_Register').button('reset'); ", 3000);//延时3秒
 		});
+
 
 	});
 </script>
