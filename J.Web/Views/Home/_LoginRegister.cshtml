@@ -95,6 +95,13 @@
 			$("#Login_dialog_alert").addClass('hidden');
 
 			$(this).button("loading");
+
+			if ($("#Login_dialog_LoginName").val().length == 0 || $("#Login_dialog_LoginPassword").val().length == 0) {
+				$("#Login_dialog_alert_message").html("<strong>登录名");
+				$("#Login_dialog_alert").removeClass('hidden');
+
+			}
+			else
 			$.ajax({
 				type: "post",
 				cache: false,
