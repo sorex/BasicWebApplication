@@ -21,7 +21,6 @@
 					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 					<p id="Login_dialog_alert_message"></p>
 				</div>
-
 			</div>
 			<div class="modal-footer">
 				<button type="button" id="Login_dialog_Login" class="btn btn-lg btn-warning" data-loading-text="正在登录...">登录</button>
@@ -47,6 +46,13 @@
 					</div>
 				</div>
 				<div class="form-group">
+					<label for="Register_dialog_ShowName" class="col-sm-3 control-label">昵称</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="Register_dialog_ShowName" placeholder="输入昵称">
+						<p id="Register_dialog_ShowName_help" class="help-block hidden"></p>
+					</div>
+				</div>
+				<div class="form-group">
 					<label for="Register_dialog_Email" class="col-sm-3 control-label">电子邮箱</label>
 					<div class="col-sm-9">
 						<input type="email" class="form-control" id="Register_dialog_Email" placeholder="输入电子邮箱">
@@ -67,6 +73,11 @@
 						<p id="Register_dialog_LoginPasswordConfirm_help" class="help-block hidden"></p>
 					</div>
 				</div>
+				<br />
+				<div class="alert alert-danger alert-dismissable hidden" id="Register_dialog_alert">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					<p id="Register_dialog_alert_message"></p>
+				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" id="Register_dialog_Login" class="btn btn-lg btn-warning" data-dismiss="modal">登录</button>
@@ -78,13 +89,12 @@
 
 
 <script type="text/javascript">
-	$(function () {
-		$("#Login_dialog_Login").click(function () {
+	$(function() {
+		$("#Login_dialog_Login").click(function() {
 			$("#Login_dialog_alert_message").html("");
 			$("#Login_dialog_alert").addClass('hidden');
 
 			$(this).button("loading");
-			//setTimeout("$('#Login_dialog_Login').button('reset'); ", 3000);//延时3秒
 			$.ajax({
 				type: "post",
 				cache: false,
@@ -93,38 +103,71 @@
 					LoginName: $.base64.encode($("#Login_dialog_LoginName").val()),
 					LoginPassword: $.base64.encode($("#Login_dialog_LoginPassword").val())
 				},
-				success: function (data) {
+				success: function(data) {
 					var dataobj = JSON.parse(data);
 					if (dataobj.code > 0) {
 						window.location.reload();
-					}
-					else {
+					} else {
 						$("#Login_dialog_alert_message").html(dataobj.msg);
 						$("#Login_dialog_alert").removeClass('hidden');
 					}
-					$('#Login_dialog_Login').button('reset');
 				},
-				error: function (XMLHttpRequest, textStatus, errorThrown) {
+				error: function(xmlHttpRequest, textStatus, errorThrown) {
 					$("#Login_dialog_alert_message").html("网络错误，请重试！");
 					$("#Login_dialog_alert").removeClass('hidden');
+				},
+				complete: function(xmlHttpRequest, textStatus) {
 					$('#Login_dialog_Login').button('reset');
 				}
 			});
 		});
 
-		$("#Login_dialog_Register").click(function () {
+		$("#Login_dialog_Register").click(function() {
 			$("#Register_dialog").modal('show');
 		});
 
-		$("#Register_dialog_Login").click(function () {
+		$("#Register_dialog_Login").click(function() {
 			$("#Login_dialog").modal('show');
 		});
 
-		$("#Register_dialog_Register").click(function () {
+		$("#Register_dialog_Register").click(function() {
 			$(this).button("loading");
-			setTimeout("$('#Register_dialog_Register').button('reset'); ", 3000);//延时3秒
+			setTimeout("$('#Register_dialog_Register').button('reset'); ", 3000); //延时3秒
+
+			$("#Register_dialog_alert_message").html("");
+			$("#Register_dialog_alert").addClass('hidden');
+
+			$(this).button("loading");
+			if (COND) {
+				
+			}
+			$.ajax({
+				type: "post",
+				cache: false,
+				url: "@Url.Action("Register", "Home")",
+				data: {
+					ShowName: $.base64.encode($("#Register_dialog_ShowName").val()),
+					LoginName: $.base64.encode($("#Register_dialog_LoginName").val()),
+					LoginPassword: $.base64.encode($("#Register_dialog_LoginPassword").val()),
+					Email: $.base64.encode($("#Register_dialog_Email").val()),
+				},
+				success: function(data) {
+					var dataobj = JSON.parse(data);
+					if (dataobj.code > 0) {
+						window.location.reload();
+					} else {
+						$("#Login_dialog_alert_message").html(dataobj.msg);
+						$("#Login_dialog_alert").removeClass('hidden');
+					}
+				},
+				error: function (xmlHttpRequest, textStatus, errorThrown) {
+					$("#Login_dialog_alert_message").html("网络错误，请重试！");
+					$("#Login_dialog_alert").removeClass('hidden');
+				},
+				complete: function (xmlHttpRequest, textStatus) {
+					$('#Login_dialog_Login').button('reset');
+				}
+			});
 		});
-
-
 	});
 </script>
