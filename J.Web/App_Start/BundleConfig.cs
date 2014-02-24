@@ -1,5 +1,4 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
 namespace J.Web
 {
@@ -9,6 +8,7 @@ namespace J.Web
 		public static void RegisterBundles(BundleCollection bundles)
 		{
 			#region CSS (按名称排序)
+
 			bundles.Add(new StyleBundle("~/Content/all").Include(
 				"~/Content/bootstrap.css",
 				"~/Content/bootstrap-theme.css",
@@ -32,10 +32,11 @@ namespace J.Web
 
 			bundles.Add(new StyleBundle("~/Content/uploadify").Include(
 				"~/Content/uploadify.css"));
-			
+
 			#endregion
 
 			#region JS (按名称排序)
+
 			bundles.Add(new ScriptBundle("~/Scripts/all").Include(
 				"~/Scripts/modernizr-*",
 				"~/Scripts/jquery-{version}.js",
@@ -46,7 +47,8 @@ namespace J.Web
 				"~/Scripts/mustache.js",
 				"~/Scripts/json2.js",
 				"~/Scripts/jquery.base64.js",
-				"~/Scripts/jquery.uploadify.js"));
+				"~/Scripts/jquery.uploadify.js",
+				"~/Scripts/sorex-extend.js"));
 
 			bundles.Add(new ScriptBundle("~/Scripts/bootstrap-datetimepicker").Include(
 				"~/Scripts/bootstrap-datetimepicker.js",
@@ -80,6 +82,10 @@ namespace J.Web
 
 			bundles.Add(new ScriptBundle("~/Scripts/respond").Include(
 				"~/Scripts/respond.js"));
+
+			bundles.Add(new ScriptBundle("~/Scripts/sorex-extend").Include(
+				"~/Scripts/sorex-extend.js"));
+
 			#endregion
 		}
 	}

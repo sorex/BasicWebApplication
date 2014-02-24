@@ -19,6 +19,12 @@ namespace J.Web
 				routeTemplate: "api/{controller}/{id}",
 				defaults: new { id = RouteParameter.Optional }
 			);
+
+			config.Routes.MapHttpRoute(
+				name: "DefaultAdmin",
+				routeTemplate: "admin/{controller}/{id}",
+				defaults: new { id = RouteParameter.Optional }
+			);
 		}
 	}
 }

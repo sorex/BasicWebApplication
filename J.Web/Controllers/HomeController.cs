@@ -1,4 +1,7 @@
-﻿namespace J.Web.Controllers
+﻿using J.Util;
+using Microsoft.Ajax.Utilities;
+
+namespace J.Web.Controllers
 {
 	using System;
 	using System.Linq;
@@ -31,6 +34,29 @@
 
 		public ActionResult Index()
 		{
+			//using (var db = new DBEntities())
+			//{
+			//	var user = new user()
+			//	{
+			//		CreateDateTime = DateTime.Now,
+			//		Email = "sorex@163.com",
+			//		GUID = BasicTools.NewGuid(),
+			//		LoginName = "sorex",
+			//		LoginPassword = "123456",
+			//		ShowName = "徐磊"
+			//	};
+
+			//	var user_loginlog = new user_loginlog()
+			//	{
+			//		userID = user.GUID,
+			//		LoginDateTime = DateTime.Now
+			//	};
+
+			//	db.users.Add(user);
+			//	db.user_loginlog.Add(user_loginlog);
+			//	db.SaveChanges();
+			//}
+
 			return this.View();
 		}
 
