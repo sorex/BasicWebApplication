@@ -10,9 +10,9 @@ jQuery.fn.extend({
 
 jQuery.extend({
 	initTemplate: function () {
-		$(".template").each(function () {
+		$("[data-template]").each(function () {
 			var $this = $(this);
-			$this.data("template", $("script[type='text/x-mustache']", $this).text());
+			$this.data("template", $("#" + $this.attr("data-template")).text());
 			$this.data("template_extend", {});
 			$this.html("");
 		});
