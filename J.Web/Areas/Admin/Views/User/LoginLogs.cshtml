@@ -1,42 +1,33 @@
-﻿<div class="table-responsive">
+﻿<div>
+	<table>
+		<thead>
+			<tr>
+				<th>GUID</th>
+				<th>昵称</th>
+				<th>登录名</th>
+				<th>Email</th>
+				<th>创建时间</th>
+				<th>登录次数</th>
+			</tr>
+		</thead>
+	</table>
+</div>
+
+<div class="table-responsive">
 	<table id="listJsonTable" data-template="listJsonTableScript" class="table"></table>
 </div>
 @section scripts{
 	<script id="listJsonTableScript" type="text/x-mustache">
 	<thead>
 		<tr>
-			<th>GUID</th>
-			<th>昵称</th>
-			<th>登录名</th>
-			<th>Email</th>
-			<th>创建时间</th>
-			<th>最近登录时间</th>
-			<th>登录次数</th>
+			<th>登录时间</th>
 		</tr>
 	</thead>
 	<tbody>
 		{{#items}}
 		<tr>
 			<td>
-				{{GUID}}
-			</td>
-			<td>
-				{{ShowName}}
-			</td>
-			<td>
-				{{LoginName}}
-			</td>
-			<td>
-				{{Email}}
-			</td>
-			<td>
-				{{CreateDateTime}}
-			</td>
-			<td>
-				{{LastLogin}}
-			</td>
-			<td>
-				<a href="/Admin/User/LoginLogs?userID={{GUID}}">{{LoginCount}}</a>
+				{{LoginDateTime}}
 			</td>
 		</tr>
 		{{/items}}
