@@ -48,7 +48,9 @@ namespace J.Web
 				"~/Scripts/json2.js",
 				"~/Scripts/jquery.base64.js",
 				"~/Scripts/jquery.uploadify.js",
-				"~/Scripts/sorex-extend.js"));
+				"~/Scripts/sorex-extend.js",
+				"~/Scripts/jquery.validate.js",
+				"~/Scripts/messages_zh.js"));
 
 			bundles.Add(new ScriptBundle("~/Scripts/bootstrap-datetimepicker").Include(
 				"~/Scripts/bootstrap-datetimepicker.js",
@@ -68,6 +70,10 @@ namespace J.Web
 
 			bundles.Add(new ScriptBundle("~/Scripts/jquery.uploadify").Include(
 				"~/Scripts/jquery.uploadify.js"));
+
+			bundles.Add(new ScriptBundle("~/Scripts/jquery.validate").Include(
+				"~/Scripts/jquery.validate.js",
+				"~/Scripts/messages_zh.js"));
 
 			bundles.Add(new ScriptBundle("~/Scripts/json2").Include(
 				"~/Scripts/json2.js"));
