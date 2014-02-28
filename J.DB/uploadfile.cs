@@ -12,22 +12,15 @@ namespace J.DB
     using System;
     using System.Collections.Generic;
     
-    public partial class user
+    public partial class uploadfile
     {
-        public user()
-        {
-            this.user_loginlogs = new HashSet<user_loginlog>();
-            this.uploadfiles = new HashSet<uploadfile>();
-        }
-    
         public string GUID { get; set; }
-        public string ShowName { get; set; }
-        public string LoginName { get; set; }
-        public string LoginPassword { get; set; }
-        public string Email { get; set; }
+        public string userID { get; set; }
+        public string Name { get; set; }
+        public string Extension { get; set; }
+        public Nullable<long> Length { get; set; }
         public Nullable<System.DateTime> CreateDateTime { get; set; }
     
-        public virtual ICollection<user_loginlog> user_loginlogs { get; set; }
-        public virtual ICollection<uploadfile> uploadfiles { get; set; }
+        public virtual user user { get; set; }
     }
 }

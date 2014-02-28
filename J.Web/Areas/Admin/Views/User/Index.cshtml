@@ -1,56 +1,57 @@
 ﻿<div class="table-responsive">
-	<table id="listJsonTable" data-template="listJsonTableScript" class="table"></table>
+    <table id="listJsonTable" data-template="listJsonTableScript" class="table"></table>
 </div>
 @section scripts{
-	<script id="listJsonTableScript" type="text/x-mustache">
-	<thead>
-		<tr>
-			<th>GUID</th>
-			<th>昵称</th>
-			<th>登录名</th>
-			<th>Email</th>
-			<th>创建时间</th>
-			<th>最近登录时间</th>
-			<th>登录次数</th>
-		</tr>
-	</thead>
-	<tbody>
-		{{#items}}
-		<tr>
-			<td>
-				{{GUID}}
-			</td>
-			<td>
-				{{ShowName}}
-			</td>
-			<td>
-				{{LoginName}}
-			</td>
-			<td>
-				{{Email}}
-			</td>
-			<td>
-				{{CreateDateTime}}
-			</td>
-			<td>
-				{{LastLogin}}
-			</td>
-			<td>
-				<a href="/Admin/User/LoginLogs?userID={{GUID}}">{{LoginCount}}</a>
-			</td>
-		</tr>
-		{{/items}}
-	</tbody>
-</script>
+    <script id="listJsonTableScript" type="text/x-mustache">
+        <thead>
+            <tr>
+                <th>GUID</th>
+                <th>昵称</th>
+                <th>登录名</th>
+                <th>Email</th>
+                <th>创建时间</th>
+                <th>最近登录时间</th>
+                <th>登录次数</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#items}}
+            <tr>
+                <td>
+                    {{GUID}}
+                </td>
+                <td>
+                    {{ShowName}}
+                </td>
+                <td>
+                    {{LoginName}}
+                </td>
+                <td>
+                    {{Email}}
+                </td>
+                <td>
+                    {{#formateDate}}{{CreateDateTime}}{{/formateDate}}
+                </td>
+                <td>
+                    {{LastLogin}}
+                </td>
+                <td>
+                    <a href="/Admin/User/LoginLogs?userID={{GUID}}">{{LoginCount}}</a>
+                </td>
+            </tr>
+            {{/items}}
+        </tbody>
+    </script>
 
-	<script type="text/javascript">
-		var listJson = @Html.Raw(ViewBag.listJson)
-	</script>
-	<script type="text/javascript">
-		$(function() {
-			$.initTemplate();
+    <script type="text/javascript">
+        {
+            @Html.Raw(ViewBag.listJson)
+        }
 
-			$("#listJsonTable").render(listJson);
-		});
-	</script>
+        $(function () {
+            $.initTemplate();
+
+            $("#listJsonTable").render(listJson);
+        });
+    </script>
 }

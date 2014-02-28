@@ -2,10 +2,12 @@
 using System.Web.Mvc;
 using J.DB;
 using Newtonsoft.Json;
+using J.Web.App_Code;
+using J.Util;
 
 namespace J.Web.Areas.Admin.Controllers
 {
-	public class UserController : Controller
+    public class UserController : BaseController
 	{
 		/// <summary>
 		///     User List
@@ -28,7 +30,8 @@ namespace J.Web.Areas.Admin.Controllers
 							LoginCount = u.user_loginlogs.Count
 						};
 
-				ViewBag.listJson = JsonConvert.SerializeObject(new {items = list});
+                //ViewBag.listJson = JsonConvert.SerializeObject(new { items = list }, new Newtonsoft.Json.Converters.JavaScriptDateTimeConverter());
+                ViewBag.listJson = BasicTools.Object2JavaScriptJsonString("listJson", new { items = list });
 			}
 			return View();
 		}
@@ -59,8 +62,8 @@ namespace J.Web.Areas.Admin.Controllers
 								   l.LoginDateTime
 							   };
 
-				ViewBag.userJson = JsonConvert.SerializeObject(user);
-				ViewBag.listJson = JsonConvert.SerializeObject(new { items = list });
+                ViewBag.userJson = JsonConvert.SerializeObject(user).Replace("'", "\\'").Replace("\\\"", "\\\\\"");
+                ViewBag.listJson = JsonConvert.SerializeObject(new { items = list }).Replace("'", "\\'").Replace("\\\"", "\\\\\"");
 			}
 
 			return View();

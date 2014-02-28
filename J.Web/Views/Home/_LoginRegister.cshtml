@@ -121,12 +121,12 @@
 						LoginName: $.base64.encode($("#Login_dialog_LoginName").val()),
 						LoginPassword: $.base64.encode($("#Login_dialog_LoginPassword").val())
 					},
-					success: function (data) {
-						var dataobj = JSON.parse(data);
-						if (dataobj.code > 0) {
+					success: function (returnstring) {
+					    var returnobj = JSON.parse(returnstring);
+					    if (returnobj.status > 0) {
 							window.location.reload();
 						} else {
-							$("#Login_dialog_alert_message").html(dataobj.msg);
+							$("#Login_dialog_alert_message").html(dataobj.message);
 							$("#Login_dialog_alert").removeClass('hidden');
 						}
 					},
@@ -170,12 +170,12 @@
 					LoginPassword: $.base64.encode($("#Register_dialog_LoginPassword").val()),
 					Email: $.base64.encode($("#Register_dialog_Email").val()),
 				},
-				success: function (data) {
-					var dataobj = JSON.parse(data);
-					if (dataobj.code > 0) {
+				success: function (returnstring) {
+				    var returnobj = JSON.parse(returnstring);
+				    if (returnobj.status > 0) {
 						window.location.reload();
 					} else {
-						$("#Login_dialog_alert_message").html(dataobj.msg);
+						$("#Login_dialog_alert_message").html(dataobj.message);
 						$("#Login_dialog_alert").removeClass('hidden');
 					}
 				},

@@ -1,47 +1,46 @@
 ﻿<div>
-	<table>
-		<thead>
-			<tr>
-				<th>GUID</th>
-				<th>昵称</th>
-				<th>登录名</th>
-				<th>Email</th>
-				<th>创建时间</th>
-				<th>登录次数</th>
-			</tr>
-		</thead>
-	</table>
+    <table>
+        <thead>
+            <tr>
+                <th>GUID</th>
+                <th>昵称</th>
+                <th>登录名</th>
+                <th>Email</th>
+                <th>创建时间</th>
+                <th>登录次数</th>
+            </tr>
+        </thead>
+    </table>
 </div>
 
 <div class="table-responsive">
-	<table id="listJsonTable" data-template="listJsonTableScript" class="table"></table>
+    <table id="listJsonTable" data-template="listJsonTableScript" class="table"></table>
 </div>
 @section scripts{
-	<script id="listJsonTableScript" type="text/x-mustache">
-	<thead>
-		<tr>
-			<th>登录时间</th>
-		</tr>
-	</thead>
-	<tbody>
-		{{#items}}
-		<tr>
-			<td>
-				{{LoginDateTime}}
-			</td>
-		</tr>
-		{{/items}}
-	</tbody>
-</script>
+    <script id="listJsonTableScript" type="text/x-mustache">
+        <thead>
+            <tr>
+                <th>登录时间</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#items}}
+            <tr>
+                <td>
+                    {{LoginDateTime}}
+                </td>
+            </tr>
+            {{/items}}
+        </tbody>
+    </script>
 
-	<script type="text/javascript">
-		var listJson = @Html.Raw(ViewBag.listJson)
-	</script>
-	<script type="text/javascript">
-		$(function() {
-			$.initTemplate();
+    <script type="text/javascript">
+        var listJson = $.parseJSON("@Html.Raw(ViewBag.listJson)");
 
-			$("#listJsonTable").render(listJson);
-		});
-	</script>
+        $(function () {
+            $.initTemplate();
+
+            $("#listJsonTable").render(listJson);
+        });
+    </script>
 }

@@ -27,5 +27,6 @@ namespace J.DB
     
         public virtual DbSet<user_loginlog> user_loginlog { get; set; }
         public virtual DbSet<user> users { get; set; }
+        public virtual DbSet<uploadfile> uploadfiles { get; set; }
     }
 }
