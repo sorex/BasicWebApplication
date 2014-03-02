@@ -35,7 +35,6 @@ namespace J.Web.Areas.Common.Controllers
                 if (file != null)
                 {
                     var fileGUID = BasicTools.NewGuid();
-
                     var uploadPath = Server.MapPath("~/Files/UserFiles") + "\\" + base.CurrentUser.GUID + "\\" + fileGUID;
 
                     //上传路径不存在则创建路径
@@ -68,9 +67,9 @@ namespace J.Web.Areas.Common.Controllers
 
                     return Content(new ReturnObject()
                     {
-                        status = ReturnObject.EReturnStatus.success,
+                        status  = ReturnObject.EReturnStatus.success,
                         message = "<strong>登录名</strong> 或 <strong>登录密码</strong> 错误！",
-                        data = new { userid = base.CurrentUser.GUID, guid = fileGUID, name = file.FileName }
+                        data    = new { userid = base.CurrentUser.GUID, guid = fileGUID, name = file.FileName }
                     }.ToString());
 
                 }
