@@ -43,43 +43,38 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h2 class="modal-title">用户注册</h2>
             </div>
-            <form id="Login_dialog_form">
-
+            <form id="Register_dialog_form">
                 <div class="modal-body form-horizontal">
                     <div class="form-group">
                         <label for="Register_dialog_LoginName" class="col-sm-3 control-label">登录名</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="Register_dialog_LoginName" placeholder="输入登录名">
+                            <input type="text" class="form-control" id="Register_dialog_LoginName" name="LoginName" placeholder="输入登录名">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="Register_dialog_ShowName" class="col-sm-3 control-label">昵称</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="Register_dialog_ShowName" placeholder="输入昵称">
+                            <input type="text" class="form-control" id="Register_dialog_ShowName" name="ShowName" placeholder="输入昵称">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="Register_dialog_Email" class="col-sm-3 control-label">电子邮箱</label>
                         <div class="col-sm-9">
-                            <input type="email" class="form-control" id="Register_dialog_Email" placeholder="输入电子邮箱">
-                            <p id="Register_dialog_Email_help" class="help-block hidden"></p>
+                            <input type="email" class="form-control" id="Register_dialog_Email" name="Email" placeholder="输入电子邮箱">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="Register_dialog_LoginPassword" class="col-sm-3 control-label">登录密码</label>
                         <div class="col-sm-9">
-                            <input type="password" class="form-control" id="Register_dialog_LoginPassword" placeholder="输入登录密码">
-                            <p id="Register_dialog_LoginPassword_help" class="help-block hidden"></p>
+                            <input type="password" class="form-control" id="Register_dialog_LoginPassword" name="LoginPassword" placeholder="输入登录密码">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="Register_dialog_LoginPasswordConfirm" class="col-sm-3 control-label">确认密码</label>
                         <div class="col-sm-9">
-                            <input type="password" class="form-control" id="Register_dialog_LoginPasswordConfirm" placeholder="再次输入密码">
-                            <p id="Register_dialog_LoginPasswordConfirm_help" class="help-block hidden"></p>
+                            <input type="password" class="form-control" id="Register_dialog_LoginPasswordConfirm" name="LoginPasswordConfirm" placeholder="再次输入密码">
                         </div>
                     </div>
-                    <br />
                     <div class="alert alert-danger alert-dismissable hidden" id="Register_dialog_alert">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                         <p id="Register_dialog_alert_message"></p>
@@ -94,9 +89,14 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-
 <script type="text/javascript">
+    {
+        var Home_Login_url = "@Url.Action("Login", "Home")";
+        var Home_Register_url = "@Url.Action("Register", "Home")"
+    }
+
     $(function () {
+        //#region 登录相关Js
         $("#Login_dialog_form").validate({
             rules: {
                 LoginName: {
@@ -119,7 +119,7 @@
                 $.ajax({
                     type: "post",
                     cache: false,
-                    url: "@Url.Action("Login", "Home")",
+                    url: Home_Login_url,
                     data: {
                         LoginName: $.base64.encode($("#Login_dialog_LoginName").val()),
                         LoginPassword: $.base64.encode($("#Login_dialog_LoginPassword").val())
@@ -129,7 +129,7 @@
                         if (returnobj.status > 0) {
                             window.location.reload();
                         } else {
-                            $("#Login_dialog_alert_message").html(dataobj.message);
+                            $("#Login_dialog_alert_message").html(returnobj.message);
                             $("#Login_dialog_alert").removeClass('hidden');
                         }
                     },
@@ -147,49 +147,75 @@
         $("#Login_dialog_Register").click(function () {
             $("#Register_dialog").modal('show');
         });
+        //#endregion
+
+        //#region 注册相关Js
+        $("#Register_dialog_form").validate({
+            rules: {
+                LoginName: {
+                    required: true,
+                    minlength: 5
+                },
+                ShowName: {
+                    required: true,
+                    minlength: 2
+                },
+                Email: {
+                    required: true,
+                    email: true,
+                    minlength: 5
+                },
+                LoginPassword: {
+                    required: true,
+                    minlength: 5
+                },
+                LoginPasswordConfirm: {
+                    required: true,
+                    equalTo: "#Register_dialog_LoginPassword",
+                    minlength: 5
+                }
+            }
+        });
 
         $("#Register_dialog_Login").click(function () {
             $("#Login_dialog").modal('show');
         });
 
         $("#Register_dialog_Register").click(function () {
-            $(this).button("loading");
-            setTimeout("$('#Register_dialog_Register').button('reset'); ", 3000); //延时3秒
-
             $("#Register_dialog_alert_message").html("");
             $("#Register_dialog_alert").addClass('hidden');
 
-            $(this).button("loading");
-            if (COND) {
-
-            }
-            $.ajax({
-                type: "post",
-                cache: false,
-                url: "@Url.Action("Register", "Home")",
-                data: {
-                    ShowName: $.base64.encode($("#Register_dialog_ShowName").val()),
-                    LoginName: $.base64.encode($("#Register_dialog_LoginName").val()),
-                    LoginPassword: $.base64.encode($("#Register_dialog_LoginPassword").val()),
-                    Email: $.base64.encode($("#Register_dialog_Email").val()),
-                },
-                success: function (returnstring) {
-                    var returnobj = JSON.parse(returnstring);
-                    if (returnobj.status > 0) {
-                        window.location.reload();
-                    } else {
-                        $("#Login_dialog_alert_message").html(dataobj.message);
-                        $("#Login_dialog_alert").removeClass('hidden');
+            if ($("#Register_dialog_form").valid()) {
+                $(this).button("loading");
+                $.ajax({
+                    type: "post",
+                    cache: false,
+                    url: Home_Register_url,
+                    data: {
+                        ShowName: $.base64.encode($("#Register_dialog_ShowName").val()),
+                        LoginName: $.base64.encode($("#Register_dialog_LoginName").val()),
+                        LoginPassword: $.base64.encode($("#Register_dialog_LoginPassword").val()),
+                        Email: $.base64.encode($("#Register_dialog_Email").val()),
+                    },
+                    success: function (returnstring) {
+                        var returnobj = JSON.parse(returnstring);
+                        if (returnobj.status > 0) {
+                            window.location.reload();
+                        } else {
+                            $("#Register_dialog_alert_message").html(returnobj.message);
+                            $("#Register_dialog_alert").removeClass('hidden');
+                        }
+                    },
+                    error: function (xmlHttpRequest, textStatus, errorThrown) {
+                        $("#Register_dialog_alert_message").html("网络错误，请重试！");
+                        $("#Register_dialog_alert").removeClass('hidden');
+                    },
+                    complete: function (xmlHttpRequest, textStatus) {
+                        $('#Register_dialog_Login').button('reset');
                     }
-                },
-                error: function (xmlHttpRequest, textStatus, errorThrown) {
-                    $("#Login_dialog_alert_message").html("网络错误，请重试！");
-                    $("#Login_dialog_alert").removeClass('hidden');
-                },
-                complete: function (xmlHttpRequest, textStatus) {
-                    $('#Login_dialog_Login').button('reset');
-                }
-            });
+                });
+            }
         });
+        //#endregion
     });
 </script>

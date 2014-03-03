@@ -1,0 +1,93 @@
+﻿@{
+    ViewBag.Title = "Login";
+}
+
+<form id="Login_dialog_form">
+    <div class="form-group">
+        <div class="input-group input-group-lg">
+            <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
+            <input type="text" class="form-control" id="Login_dialog_LoginName" name="LoginName" placeholder="登录名">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="input-group input-group-lg">
+            <span class="input-group-addon"><i class="fa fa-fw fa-unlock-alt"></i></span>
+            <input type="password" class="form-control" id="Login_dialog_LoginPassword" name="LoginPassword" placeholder="登录密码">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="alert alert-danger alert-dismissable hidden" id="Login_dialog_alert">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <p id="Login_dialog_alert_message"></p>
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="button" id="Login_dialog_Login" class="btn btn-lg btn-warning" data-loading-text="正在登录...">登录</button>
+        <button type="button" id="Login_dialog_Register" class="btn btn-lg btn-primary">注册</button>
+    </div>
+</form>
+
+
+
+<script type="text/javascript">
+    {
+        var Home_Index_url = "@Url.Action("Index", "Home")";
+        var Home_Login_url = "@Url.Action("Login", "Home")";
+        var Home_Register_url = "@Url.Action("Register", "Home")";
+    }
+
+    $(function () {
+        //#region 登录相关Js
+        $("#Login_dialog_form").validate({
+            rules: {
+                LoginName: {
+                    required: true,
+                    minlength: 5
+                },
+                LoginPassword: {
+                    required: true,
+                    minlength: 5
+                }
+            }
+        });
+
+        $("#Login_dialog_Login").click(function () {
+            $("#Login_dialog_alert_message").html("");
+            $("#Login_dialog_alert").addClass('hidden');
+
+            if ($("#Login_dialog_form").valid()) {
+                $(this).button("loading");
+                $.ajax({
+                    type: "post",
+                    cache: false,
+                    url: Home_Login_url,
+                    data: {
+                        LoginName: $.base64.encode($("#Login_dialog_LoginName").val()),
+                        LoginPassword: $.base64.encode($("#Login_dialog_LoginPassword").val())
+                    },
+                    success: function (returnstring) {
+                        var returnobj = JSON.parse(returnstring);
+                        if (returnobj.status > 0) {
+                            window.location.href = Home_Index_url;
+                        } else {
+                            $("#Login_dialog_alert_message").html(returnobj.message);
+                            $("#Login_dialog_alert").removeClass('hidden');
+                        }
+                    },
+                    error: function (xmlHttpRequest, textStatus, errorThrown) {
+                        $("#Login_dialog_alert_message").html("网络错误，请重试！");
+                        $("#Login_dialog_alert").removeClass('hidden');
+                    },
+                    complete: function (xmlHttpRequest, textStatus) {
+                        $('#Login_dialog_Login').button('reset');
+                    }
+                });
+            }
+        });
+
+        $("#Login_dialog_Register").click(function () {
+            window.location.href = Home_Register_url;
+        });
+        //#endregion
+    });
+</script>

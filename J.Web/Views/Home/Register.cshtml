@@ -1,0 +1,125 @@
+﻿@{
+    ViewBag.Title = "Register";
+}
+
+<form id="Register_dialog_form">
+    <div class="form-group">
+        <label for="Register_dialog_LoginName" class="col-sm-3 control-label">登录名</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control" id="Register_dialog_LoginName" name="LoginName" placeholder="输入登录名">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="Register_dialog_ShowName" class="col-sm-3 control-label">昵称</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control" id="Register_dialog_ShowName" name="ShowName" placeholder="输入昵称">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="Register_dialog_Email" class="col-sm-3 control-label">电子邮箱</label>
+        <div class="col-sm-9">
+            <input type="email" class="form-control" id="Register_dialog_Email" name="Email" placeholder="输入电子邮箱">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="Register_dialog_LoginPassword" class="col-sm-3 control-label">登录密码</label>
+        <div class="col-sm-9">
+            <input type="password" class="form-control" id="Register_dialog_LoginPassword" name="LoginPassword" placeholder="输入登录密码">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="Register_dialog_LoginPasswordConfirm" class="col-sm-3 control-label">确认密码</label>
+        <div class="col-sm-9">
+            <input type="password" class="form-control" id="Register_dialog_LoginPasswordConfirm" name="LoginPasswordConfirm" placeholder="再次输入密码">
+        </div>
+    </div>
+    <div class="alert alert-danger alert-dismissable hidden" id="Register_dialog_alert">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <p id="Register_dialog_alert_message"></p>
+    </div>
+
+    <div class="form-group">
+        <button type="button" id="Register_dialog_Login" class="btn btn-lg btn-warning">登录</button>
+        <button type="button" id="Register_dialog_Register" class="btn btn-lg btn-primary" data-loading-text="正在注册...">立即注册</button>
+    </div>
+</form>
+
+
+<script type="text/javascript">
+    {
+        var Home_Index_url = "@Url.Action("Index", "Home")";
+        var Home_Login_url = "@Url.Action("Login", "Home")";
+        var Home_Register_url = "@Url.Action("Register", "Home")";
+    }
+
+    $(function () {
+        //#region 注册相关Js
+        $("#Register_dialog_form").validate({
+            rules: {
+                LoginName: {
+                    required: true,
+                    minlength: 5
+                },
+                ShowName: {
+                    required: true,
+                    minlength: 2
+                },
+                Email: {
+                    required: true,
+                    email: true,
+                    minlength: 5
+                },
+                LoginPassword: {
+                    required: true,
+                    minlength: 5
+                },
+                LoginPasswordConfirm: {
+                    required: true,
+                    equalTo: "#Register_dialog_LoginPassword",
+                    minlength: 5
+                }
+            }
+        });
+
+        $("#Register_dialog_Login").click(function () {
+            window.location.href = Home_Login_url;
+        });
+
+        $("#Register_dialog_Register").click(function () {
+            $("#Register_dialog_alert_message").html("");
+            $("#Register_dialog_alert").addClass('hidden');
+
+            if ($("#Register_dialog_form").valid()) {
+                $(this).button("loading");
+                $.ajax({
+                    type: "post",
+                    cache: false,
+                    url: Home_Register_url,
+                    data: {
+                        ShowName: $.base64.encode($("#Register_dialog_ShowName").val()),
+                        LoginName: $.base64.encode($("#Register_dialog_LoginName").val()),
+                        LoginPassword: $.base64.encode($("#Register_dialog_LoginPassword").val()),
+                        Email: $.base64.encode($("#Register_dialog_Email").val()),
+                    },
+                    success: function (returnstring) {
+                        var returnobj = JSON.parse(returnstring);
+                        if (returnobj.status > 0) {
+                            window.location.href = Home_Index_url;
+                        } else {
+                            $("#Register_dialog_alert_message").html(returnobj.message);
+                            $("#Register_dialog_alert").removeClass('hidden');
+                        }
+                    },
+                    error: function (xmlHttpRequest, textStatus, errorThrown) {
+                        $("#Register_dialog_alert_message").html("网络错误，请重试！");
+                        $("#Register_dialog_alert").removeClass('hidden');
+                    },
+                    complete: function (xmlHttpRequest, textStatus) {
+                        $('#Register_dialog_Login').button('reset');
+                    }
+                });
+            }
+        });
+        //#endregion
+    });
+</script>

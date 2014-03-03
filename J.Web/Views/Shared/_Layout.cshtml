@@ -38,10 +38,19 @@
 					<li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
 				</ul>
 
-				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#" data-toggle="modal" data-target="#Login_dialog">登录</a></li>
-					<li><a href="#" data-toggle="modal" data-target="#Register_dialog">注册</a></li>
-				</ul>
+                <ul class="nav navbar-nav navbar-right">
+                    @if (System.Configuration.ConfigurationManager.AppSettings["LoginPage"] != "true")
+                    {
+                        <li><a href="#" data-toggle="modal" data-target="#Login_dialog">登录</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#Register_dialog">注册</a></li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("登录", "Login", "Home", new { area = "" }, null)</li>
+                        <li>@Html.ActionLink("注册", "Register", "Home", new { area = "" }, null)</li>
+                    }
+                </ul>
+
 			</div>
 		</div>
 	</header>
@@ -52,7 +61,7 @@
 		<hr />
 		<p>&copy; @DateTime.Now.Year - 我的 ASP.NET 应用程序</p>
 	</footer>
-	@if (Session[J.Logic.Basic.SessionConfig.CurrentUser] == null)
+	@if (System.Configuration.ConfigurationManager.AppSettings["LoginPage"] != "true" && Session[J.Logic.Basic.SessionConfig.CurrentUser] == null)
 {
 		@Html.Partial("~/Views/Home/_LoginRegister.cshtml")
 }

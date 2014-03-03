@@ -30,7 +30,6 @@ namespace J.Web.Areas.Admin.Controllers
 							LoginCount = u.user_loginlogs.Count
 						};
 
-                //ViewBag.listJson = JsonConvert.SerializeObject(new { items = list }, new Newtonsoft.Json.Converters.JavaScriptDateTimeConverter());
                 ViewBag.listJson = BasicTools.Object2JavaScriptJsonString("listJson", new { items = list });
 			}
 			return View();
@@ -62,8 +61,8 @@ namespace J.Web.Areas.Admin.Controllers
 								   l.LoginDateTime
 							   };
 
-                ViewBag.userJson = JsonConvert.SerializeObject(user).Replace("'", "\\'").Replace("\\\"", "\\\\\"");
-                ViewBag.listJson = JsonConvert.SerializeObject(new { items = list }).Replace("'", "\\'").Replace("\\\"", "\\\\\"");
+                ViewBag.userJson = BasicTools.Object2JavaScriptJsonString("userJson", user);
+                ViewBag.listJson = BasicTools.Object2JavaScriptJsonString("listJson", new { items = list });
 			}
 
 			return View();

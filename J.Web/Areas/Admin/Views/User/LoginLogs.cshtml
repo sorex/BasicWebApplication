@@ -35,7 +35,10 @@
     </script>
 
     <script type="text/javascript">
-        var listJson = $.parseJSON("@Html.Raw(ViewBag.listJson)");
+        {
+            @Html.Raw(ViewBag.userJson)
+            @Html.Raw(ViewBag.listJson)
+        }
 
         $(function () {
             $.initTemplate();
