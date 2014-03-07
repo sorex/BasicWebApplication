@@ -1,0 +1,135 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!-- Register -->
+<div class="modal fade" id="RegisterDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h2 class="modal-title">用户注册</h2>
+            </div>
+            <form id="RegisterDialog_form">
+                <div class="modal-body form-horizontal">
+                    <div class="form-group">
+                        <label for="RegisterDialog_LoginName" class="col-sm-3 control-label">登录名</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="RegisterDialog_LoginName" name="LoginName" placeholder="输入登录名">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="RegisterDialog_ShowName" class="col-sm-3 control-label">昵称</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="RegisterDialog_ShowName" name="ShowName" placeholder="输入昵称">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="RegisterDialog_Email" class="col-sm-3 control-label">电子邮箱</label>
+                        <div class="col-sm-9">
+                            <input type="email" class="form-control" id="RegisterDialog_Email" name="Email" placeholder="输入电子邮箱">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="RegisterDialog_LoginPassword" class="col-sm-3 control-label">登录密码</label>
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control" id="RegisterDialog_LoginPassword" name="LoginPassword" placeholder="输入登录密码">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="RegisterDialog_LoginPasswordConfirm" class="col-sm-3 control-label">确认密码</label>
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control" id="RegisterDialog_LoginPasswordConfirm" name="LoginPasswordConfirm" placeholder="再次输入密码">
+                        </div>
+                    </div>
+                    <div class="alert alert-danger alert-dismissable hidden" id="RegisterDialog_alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <p id="RegisterDialog_alert_message"></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="RegisterDialog_Login" class="btn btn-lg btn-warning" data-dismiss="modal">登录</button>
+                    <button type="button" id="RegisterDialog_Register" class="btn btn-lg btn-primary" data-loading-text="正在注册...">立即注册</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script type="text/javascript">
+    {
+        var Common_User_Register_url = "@Url.Action("Register", "User", new { area = "Common" }, null)"
+    }
+
+    $(function () {
+        //#region 注册相关Js
+        $("#RegisterDialog_form").validate({
+            rules: {
+                LoginName: {
+                    required: true,
+                    minlength: 5
+                },
+                ShowName: {
+                    required: true,
+                    minlength: 2
+                },
+                Email: {
+                    required: true,
+                    email: true,
+                    minlength: 5
+                },
+                LoginPassword: {
+                    required: true,
+                    minlength: 5
+                },
+                LoginPasswordConfirm: {
+                    required: true,
+                    equalTo: "#RegisterDialog_LoginPassword",
+                    minlength: 5
+                }
+            }
+        });
+
+        $("#RegisterDialog_Login").click(function () {
+            $("#LoginDialog").modal('show');
+        });
+
+        $("#RegisterDialog_Register").click(function () {
+            $("#RegisterDialog_alert_message").html("");
+            $("#RegisterDialog_alert").addClass('hidden');
+
+            if ($("#RegisterDialog_form").valid()) {
+                $(this).button("loading");
+                $.ajax({
+                    type: "post",
+                    cache: false,
+                    url: Common_User_Register_url,
+                    data: {
+                        ShowName: $.base64.encode($("#RegisterDialog_ShowName").val()),
+                        LoginName: $.base64.encode($("#RegisterDialog_LoginName").val()),
+                        LoginPassword: $.base64.encode($("#RegisterDialog_LoginPassword").val()),
+                        Email: $.base64.encode($("#RegisterDialog_Email").val()),
+                    },
+                    success: function (returnstring) {
+                        var returnobj = JSON.parse(returnstring);
+                        if (returnobj.status > 0) {
+                            window.location.reload();
+                        } else {
+                            $("#RegisterDialog_alert_message").html(returnobj.message);
+                            $("#RegisterDialog_alert").removeClass('hidden');
+                        }
+                    },
+                    error: function (xmlHttpRequest, textStatus, errorThrown) {
+                        $("#RegisterDialog_alert_message").html("网络错误，请重试！");
+                        $("#RegisterDialog_alert").removeClass('hidden');
+                    },
+                    complete: function (xmlHttpRequest, textStatus) {
+                        $('#RegisterDialog_Login').button('reset');
+                    }
+                });
+            }
+        });
+        //#endregion
+    });
+</script>

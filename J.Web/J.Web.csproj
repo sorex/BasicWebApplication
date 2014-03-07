@@ -161,6 +161,7 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Common\CommonAreaRegistration.cs" />
     <Compile Include="Areas\Common\Controllers\UploadController.cs" />
+    <Compile Include="Areas\Common\Controllers\UserController.cs" />
     <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
     <Compile Include="Areas\HelpPage\App_Start\HelpPageConfig.cs" />
     <Compile Include="Areas\HelpPage\Controllers\HelpController.cs" />
@@ -255,6 +256,10 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Areas\Common\Views\User\_LoginDialog.cshtml" />
+    <Content Include="Areas\Common\Views\User\_RegisterDialog.cshtml" />
+    <Content Include="Areas\Common\Views\User\Login.cshtml" />
+    <Content Include="Areas\Common\Views\User\Register.cshtml" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -303,9 +308,6 @@
     <Content Include="Views\Sample\datetimepicker.cshtml" />
     <Content Include="Scripts\jquery.uploadify.min.js.map" />
     <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\_LoginRegister.cshtml" />
-    <Content Include="Views\Home\Login.cshtml" />
-    <Content Include="Views\Home\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\J.DB\J.DB.csproj">

@@ -3,6 +3,7 @@
 }
 
 <form id="Register_dialog_form" class=" form-horizontal col-sm-6 col-sm-offset-3" style="padding-top:30px;">
+    <p class="text-right"> 我已经注册，现在就 <a href="~/Areas/Common/Views/User/Login.cshtml">登录</a></p>
     <div class="form-group">
         <label for="Register_dialog_LoginName" class="col-sm-3 control-label">登录名</label>
         <div class="col-sm-9">
@@ -38,18 +39,17 @@
         <p id="Register_dialog_alert_message"></p>
     </div>
 
-    <div class="form-group">
-        <button type="button" id="Register_dialog_Login" class="btn btn-lg btn-warning">登录</button>
-        <button type="button" id="Register_dialog_Register" class="btn btn-lg btn-primary" data-loading-text="正在注册...">立即注册</button>
+    <div>
+        <button type="button" id="Register_dialog_Register" class="btn btn-lg btn-primary pull-right" data-loading-text="正在注册...">立即注册</button>
     </div>
 </form>
 
 
 <script type="text/javascript">
     {
-        var Home_Index_url = "@Url.Action("Index", "Home")";
-        var Home_Login_url = "@Url.Action("Login", "Home")";
-        var Home_Register_url = "@Url.Action("Register", "Home")";
+        var Home_Index_url = "@Url.Action("Index", "Home", new { area = "" }, null)";
+        var Common_User_Login_url = "@Url.Action("Login", "User", new { area = "Common" }, null)";
+        var Common_User_Register_url = "@Url.Action("Register", "User", new { area = "Common" }, null)"
     }
 
     $(function () {
@@ -82,7 +82,7 @@
         });
 
         $("#Register_dialog_Login").click(function () {
-            window.location.href = Home_Login_url;
+            window.location.href = Common_User_Login_url;
         });
 
         $("#Register_dialog_Register").click(function () {
@@ -94,7 +94,7 @@
                 $.ajax({
                     type: "post",
                     cache: false,
-                    url: Home_Register_url,
+                    url: Common_User_Register_url,
                     data: {
                         ShowName: $.base64.encode($("#Register_dialog_ShowName").val()),
                         LoginName: $.base64.encode($("#Register_dialog_LoginName").val()),
