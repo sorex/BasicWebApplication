@@ -16,9 +16,14 @@ namespace J.Web.Controllers
             return View();
         }
 
-		public ActionResult datetimepicker()
-		{
-			return View();
-		}
-	}
+        public ActionResult datetimepicker()
+        {
+            return View();
+        }
+
+        public ActionResult tinymce()
+        {
+            return View();
+        }
+    }
 }

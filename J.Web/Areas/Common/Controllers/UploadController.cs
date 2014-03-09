@@ -68,7 +68,7 @@ namespace J.Web.Areas.Common.Controllers
                     return Content(new ReturnObject()
                     {
                         status  = ReturnObject.EReturnStatus.success,
-                        message = "<strong>登录名</strong> 或 <strong>登录密码</strong> 错误！",
+                        message = "上传成功！",
                         data    = new { userid = base.CurrentUser.GUID, guid = fileGUID, name = file.FileName }
                     }.ToString());
 
