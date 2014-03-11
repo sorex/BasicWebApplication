@@ -88,5 +88,10 @@ namespace J.Web.Areas.Common.Controllers
                 }.ToString());
             }
         }
+
+        public ActionResult Demo()
+        {
+            return View();
+        }
     }
 }

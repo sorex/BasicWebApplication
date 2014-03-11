@@ -37,22 +37,22 @@
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
-                    @if (System.Configuration.ConfigurationManager.AppSettings["LoginDialog"] == "true")
-                    {
-                        <li><a href="#" data-toggle="modal" data-target="#LoginDialog">登录</a></li>
-                    }
-                    @if (System.Configuration.ConfigurationManager.AppSettings["LoginDialog"] == "true" && System.Configuration.ConfigurationManager.AppSettings["EnableRegister"] == "true")
-                    {
-                        <li><a href="#" data-toggle="modal" data-target="#RegisterDialog">注册</a></li>
-                    }
-                    @if (System.Configuration.ConfigurationManager.AppSettings["LoginDialog"] != "true")
-                    {
-                        <li>@Html.ActionLink("登录", "Login", "User", new { area = "Common" }, null)</li>
-                    }
-                    @if (System.Configuration.ConfigurationManager.AppSettings["LoginDialog"] != "true" && System.Configuration.ConfigurationManager.AppSettings["EnableRegister"] == "true")
-                    {
-                        <li>@Html.ActionLink("注册", "Register", "User", new { area = "Common" }, null)</li>
-                    }
+                        @if (Session[J.Logic.Basic.SessionConfig.CurrentUser] == null && System.Configuration.ConfigurationManager.AppSettings["LoginDialog"] == "true")
+                        {
+                            <li><a href="#" data-toggle="modal" data-target="#LoginDialog">登录</a></li>
+                        }
+                        @if (Session[J.Logic.Basic.SessionConfig.CurrentUser] == null && System.Configuration.ConfigurationManager.AppSettings["LoginDialog"] == "true" && System.Configuration.ConfigurationManager.AppSettings["EnableRegister"] == "true")
+                        {
+                            <li><a href="#" data-toggle="modal" data-target="#RegisterDialog">注册</a></li>
+                        }
+                        @if (Session[J.Logic.Basic.SessionConfig.CurrentUser] == null && System.Configuration.ConfigurationManager.AppSettings["LoginDialog"] != "true")
+                        {
+                            <li>@Html.ActionLink("登录", "Login", "User", new { area = "Common" }, null)</li>
+                        }
+                        @if (Session[J.Logic.Basic.SessionConfig.CurrentUser] == null && System.Configuration.ConfigurationManager.AppSettings["LoginDialog"] != "true" && System.Configuration.ConfigurationManager.AppSettings["EnableRegister"] == "true")
+                        {
+                            <li>@Html.ActionLink("注册", "Register", "User", new { area = "Common" }, null)</li>
+                        }
                 </ul>
             </div>
         </div>
