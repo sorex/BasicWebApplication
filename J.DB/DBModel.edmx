@@ -5,6 +5,19 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="DBModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="singles">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="char" MaxLength="32" Nullable="false" />
+          <Property Name="SingleIntNumber" Type="int" />
+          <Property Name="SingleIntEnum" Type="int" />
+          <Property Name="SingleMoney" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="SingleDatetime" Type="datetime" Precision="0" />
+          <Property Name="SingleVarchar" Type="varchar" MaxLength="300" />
+          <Property Name="SingleLongVarchar" Type="text" />
+          <Property Name="SingleBit" Type="bit" />
+        </EntityType>
         <EntityType Name="uploadfiles">
           <Key>
             <PropertyRef Name="GUID" />
@@ -60,6 +73,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="DBModelStoreContainer">
+          <EntitySet Name="singles" EntityType="Self.singles" Schema="webdb" store:Type="Tables" />
           <EntitySet Name="uploadfiles" EntityType="Self.uploadfiles" Schema="webdb" store:Type="Tables" />
           <EntitySet Name="user_loginlogs" EntityType="Self.user_loginlogs" Schema="webdb" store:Type="Tables" />
           <EntitySet Name="users" EntityType="Self.users" Schema="webdb" store:Type="Tables" />
@@ -88,6 +102,7 @@
             <End Role="user" EntitySet="users" />
             <End Role="uploadfile" EntitySet="uploadfiles" />
           </AssociationSet>
+          <EntitySet Name="singles" EntityType="DBModel.single" />
         </EntityContainer>
         <EntityType Name="user_loginlog">
           <Key>
@@ -147,6 +162,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="single">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="SingleIntNumber" Type="Int32" />
+          <Property Name="SingleIntEnum" Type="Int32" />
+          <Property Name="SingleMoney" Type="Decimal" />
+          <Property Name="SingleDatetime" Type="DateTime" />
+          <Property Name="SingleVarchar" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="SingleLongVarchar" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="SingleBit" Type="Boolean" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -182,6 +210,20 @@
                 <ScalarProperty Name="Extension" ColumnName="Extension" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="GUID" ColumnName="GUID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="singles">
+            <EntityTypeMapping TypeName="DBModel.single">
+              <MappingFragment StoreEntitySet="singles">
+                <ScalarProperty Name="SingleBit" ColumnName="SingleBit" />
+                <ScalarProperty Name="SingleLongVarchar" ColumnName="SingleLongVarchar" />
+                <ScalarProperty Name="SingleVarchar" ColumnName="SingleVarchar" />
+                <ScalarProperty Name="SingleDatetime" ColumnName="SingleDatetime" />
+                <ScalarProperty Name="SingleMoney" ColumnName="SingleMoney" />
+                <ScalarProperty Name="SingleIntEnum" ColumnName="SingleIntEnum" />
+                <ScalarProperty Name="SingleIntNumber" ColumnName="SingleIntNumber" />
                 <ScalarProperty Name="GUID" ColumnName="GUID" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -149,6 +149,7 @@
     <Folder Include="Areas\Common\Views\Shared\" />
     <Folder Include="Files\UserFiles\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Single\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Code\BaseApiController.cs" />
@@ -193,6 +194,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SampleController.cs" />
+    <Compile Include="Controllers\SingleController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
