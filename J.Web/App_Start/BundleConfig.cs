@@ -47,7 +47,6 @@ namespace J.Web
                 "~/Scripts/mustache.js",
                 "~/Scripts/json2.js",
                 "~/Scripts/jquery.base64.js",
-                "~/Scripts/jquery.uploadify.js",
                 "~/Scripts/sorex-extend.js",
                 "~/Scripts/jquery.validate.js",
                 "~/Scripts/messages_zh.js"));

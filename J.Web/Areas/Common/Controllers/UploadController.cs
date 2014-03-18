@@ -27,7 +27,11 @@ namespace J.Web.Areas.Common.Controllers
         public ActionResult UploadFile()
         {
             if (base.CurrentUser == null)
-                return Redirect("Home/Login");
+                return Content(new ReturnObject()
+                {
+                    status = ReturnObject.EReturnStatus.error,
+                    message = "请登录后重试。"
+                }.ToString());
             HttpPostedFileBase file = Request.Files["Filedata"]; //获取单独文件的访问
             var fileGuid = Guid.NewGuid().ToString();//生成随机的GUID
             try

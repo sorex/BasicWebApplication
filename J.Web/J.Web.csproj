@@ -260,6 +260,7 @@
     <Content Include="Areas\Common\Views\User\Login.cshtml" />
     <Content Include="Areas\Common\Views\User\Register.cshtml" />
     <Content Include="Areas\Common\Views\Upload\Demo.cshtml" />
+    <Content Include="Areas\Common\Views\Upload\Index.cshtml" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>

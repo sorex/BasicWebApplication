@@ -95,21 +95,21 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
 				// Setup the default options
 				var settings = $.extend({
 					// Required Settings
-					id       : $this.attr('id'), // The ID of the DOM object
-					swf: '/Static/Resources/uploadify/uploadify.swf',  // The path to the uploadify SWF file
-					uploader : 'uploadify.php',  // The path to the server-side upload script
+					id				: $this.attr('id'), // The ID of the DOM object
+					swf				: '/Content/uploadify.swf',  // The path to the uploadify SWF file
+					uploader		: '/Common/Upload/UploadFile',  // The path to the server-side upload script
 					
 					// Options
 					auto            : true,               // Automatically upload files when added to the queue
 					buttonClass     : '',                 // A class name to add to the browse button DOM object
 					buttonCursor    : 'hand',             // The cursor to use with the browse button
 					buttonImage     : null,               // (String or null) The path to an image to use for the Flash browse button if not using CSS to style the button
-					buttonText      : 'SELECT FILES',     // The text to use for the browse button
+					buttonText      : 'SELECT FILES',	  // The text to use for the browse button
 					checkExisting   : false,              // The path to a server-side script that checks for existing files on the server
 					debug           : false,              // Turn on swfUpload debugging mode
 					fileObjName     : 'Filedata',         // The name of the file object to use in your server-side script
 					fileSizeLimit   : 0,                  // The maximum size of an uploadable file in KB (Accepts units B KB MB GB if string, 0 for no limit)
-					fileTypeDesc    : 'All Files',        // The description for file types in the browse dialog
+					fileTypeDesc    : '全部文件',		  // The description for file types in the browse dialog
 					fileTypeExts    : '*.*',              // Allowed extensions in the browse dialog (server-side validation should also be used)
 					height          : 30,                 // The height of the browse button
 					itemTemplate    : false,              // The template for the file item in the queue

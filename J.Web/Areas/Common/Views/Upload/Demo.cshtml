@@ -1,7 +1,224 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Demo";
 }
 
 <h2>Demo</h2>
 
+<div>
+    <input type="file" id="file_upload" name="file_upload" />
+    <button type="button" class="btn" id="btnupload">上传</button>
+</div>
+<div id="download"></div>
+<div class="alert alert-danger alert-dismissable hidden" id="Upload_alert">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <p id="Upload_alert_message"></p>
+</div>
+
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $("#file_upload").uploadify({
+                'auto': false,
+                'buttonText': '选择文件',
+                'fileSizeLimit': 1024 * 5,
+                'fileTypeDesc': 'Excel文件',
+                'fileTypeExts': '*.xls; *.xlsx',
+                'multi': false,
+                'queueSizeLimit': 1,
+
+                'onUploadStart': function (file) {
+                    // $("file_upload").uploadify("settings", "formData", { 'GUID': tempGUID, 'UploadPath': $("#hiddenUploadPath").val() });
+                },
+                'onUploadSuccess': function (file, data, response) {
+                    var returnobj = JSON.parse(data);
+                    if (returnobj.status > 0) {
+                        // 成功
+                        var link = "/Files/UserFiles/" + returnobj.data.userid + "/" + returnobj.data.guid + "/" + returnobj.data.name;
+                        $("#download").text(link);
+
+                    } else {
+                        // 提示错误 $("#LoginDialog_alert_message").html(returnobj.message);
+                        $("#Upload_alert_message").html(returnobj.message);
+                        $("#Upload_alert").removeClass('hidden');
+                    }
+                },
+                'onUploadError': function (file, errorCode, errorMsg, errorString) {
+                    var name = file.name;
+                }
+            });
+
+            $("#btnupload").click(function () {
+                $("#file_upload").uploadify("upload");
+            });
+        });
+
+        if (false) {
+            var settings = {
+                //#region Options
+                'auto': true,                               // true             上传文件时,自动添加到队列中.($('#file_upload').uploadify('upload')
+                'buttonClass': '',                          // ''               给'浏览按钮'添加样式.
+                'buttonCursor': 'hand',                     // 'hand'           设置鼠标悬停在'浏览按钮'上时的样式。可以是'hand'或'arrow'
+                'buttonImage': null,                        // null             (字符串或null)设置'浏览按钮'的图片
+                'buttonText': 'SELECT FILES',               // 'SELECT FILES'   设置'浏览按钮'的文本
+                'checkExisting': false,                     // false            服务器端脚本的路径检查现有的文件在服务器上
+                'debug': false,                             // false            打开swfUpload调试模式
+                'fileObjName': 'Filedata',                  // 'Filedata'       服务器端获取文件对象的名称
+                'fileSizeLimit': 0,                         // 0                上传文件的最大KB(接受单位为B KB MB GB的字符串,0为没有限制)
+                'fileTypeDesc': 'All Files',                // 'All Files'      浏览对话框中文件类型的描述
+                'fileTypeExts': '*.*',                      // '*.*'            浏览对话框中允许的文件扩展名(还可以使用服务器端验证)
+                'formData': {},                             // {}               为每一个上传文件添加额外的发送到服务器的对象数据
+                'height': 30,                               // 30               设置'浏览按钮'的高度
+                'itemTemplate': false,                      // false            模板文件项队列
+                'method': 'post',                           // 'post'           向服务器端发送文件时使用的方式
+                'multi': true,                              // true             允许浏览对话框中选择多个文件
+                'preventCaching': true,                     // true             添加一个随机值的Flash URL,以防止缓存它(现有参数的冲突)
+                'progressData': 'percentage',               // 'percentage'     ('percentage' 或 'speed')文件上传队列显示方式
+                'queueID': false,                           // false            使用DOM对象的ID作为文件队列(没有#)
+                'queueSizeLimit': 999,                      // 999              文件的最大数量,可以在队列中
+                'removeCompleted': true,                    // true             删除队列项完成上传时从队列中
+                'removeTimeout': 3,                         // 3                延迟秒前删除队列项如果removeCompleted设置为true
+                'requeueErrors': false,                     // false            保持errored文件队列中并试图上传
+                'successTimeout': 30,                       // 30               等待的秒数后闪光检测服务器的响应文件上传完成
+                'swf': '/Content/uploadify.swf',            // 自行设定          uploadify SWF文件的路径
+                'uploader': '/Common/Upload/UploadFile',    // 自行设定          服务器端脚本上传的路径
+                'uploadLimit': 0,                           // 0                你可以上传文件的最大数量
+                'width': 120,                               // 120              浏览按钮的宽度
+                //#endregion
+
+                //#region Events
+                'onCancel': function (file) {
+                    // file
+                    // The file object being cancelled
+                },
+                'onClearQueue': function (queueItemCount) {
+                    // queueItemCount
+                    // The number of queue items that are being cancelled.
+                },
+                'onDestroy': function () { },
+                'onDialogClose': function (queueData) {
+                    // queueData
+                    // The queueData object containing information about the queue:
+                    //     filesSelected
+                    //         The number of files selected in browse files dialog
+                    //     filesQueued
+                    //         The number of files added to the queue (that didn’t return an error)
+                    //     filesReplaced
+                    //         The number of files replaced in the queue
+                    //     filesCancelled
+                    //         The number of files that were cancelled from being added to the queue (not replaced)
+                    //     filesErrored
+                    //         The number of files that returned an error
+                },
+                'onDialogOpen': function () { },
+                'onDisable': function () { },
+                'onEnable': function () { },
+                'onFallback': function () { },
+                'onInit': function (instance) {
+                    // instance
+                    // The instance of the uploadify object
+
+                    //instance.settings.queueID
+                },
+                'onQueueComplete': function (queueData) {
+                    // queueData
+                    // The queueData object containing information about the queue:
+                    //     uploadsSuccessful
+                    //       The number of uploads that were successfully completed
+                    //     uploadsErrored
+                    //       The number of uploads that returned an error
+                },
+                'onSelect': function (file) {
+                    // file
+                    // The file object that was selected.
+
+                    //file.name
+                },
+                'onSelectError': function (file, errorCode, errorMsg) {
+                    // file
+                    // The file object that returned the error.
+                    // errorCode
+                    // The error code that was returned.  The following constants can be used when determining the error code:
+                    //     QUEUE_LIMIT_EXCEEDED – The number of files selected will push the size of the queue passed the limit that was set.
+                    //     FILE_EXCEEDS_SIZE_LIMIT – The size of the file exceeds the limit that was set.
+                    //     ZERO_BYTE_FILE – The file has no size.
+                    //     INVALID_FILETYPE – The file type does not match the file type limitations that were set.
+                    // errorMsg
+                    // The error message indicating the value of the limit that was exceeded.
+
+                    //*You can access a full error message using ‘this.queueData.errorMsg’ if you do not override the default event handler.
+                },
+                'onSWFReady': function () { },
+                'onUploadComplete': function (file) {
+                    // file
+                    // The file object that was uploaded or returned an error.
+                },
+                'onUploadError': function (file, errorCode, errorMsg, errorString) {
+                    // file
+                    // The file object that was uploaded
+                    // errorCode
+                    // The error code that was returned
+                    // errorMsg
+                    // The error message that was returned
+                    // errorString
+                    // The human-readable error message containing all the details of the error
+                },
+                'onUploadProgress': function (file, bytesUploaded, bytesTotal, totalBytesUploaded, totalBytesTotal) {
+                    // file
+                    // The file object being uploaded
+                    // bytesUploaded
+                    // The number of bytes of the file that have been uploaded
+                    // bytesTotal
+                    // The total number of bytes of the file
+                    // totalBytesUploaded
+                    // The total number of bytes uploaded in the current upload operation (all files)
+                    // totalBytesTotal
+                    // The total number of bytes to be uploaded (all files)
+                },
+                'onUploadStart': function (file) {
+                    // file
+                    // The file object that is about to be uploaded
+                },
+                'onUploadSuccess': function (file, data, response) {
+                    // file
+                    // The file object that was successfully uploaded
+                    // data
+                    // The data that was returned by the server-side script (anything that was echoed by the file)
+                    // response
+                    // The response returned by the server—true on success or false if no response.  If false is returned, after the successTimeout option expires, a response of true is assumed.
+                }
+                //#endregion
+            };
+
+            //#region Methods
+            $('#file_upload').uploadify('cancel');
+            // fileID
+            // The ID of the file you want to cancel.  The easiest method for retrieving the file ID is to use the id attribute of the file queue item you want to cancel.  Any number of file IDs can be entered as arguments.  If you enter ‘*’ as the first argument, all files in the queue will be cancelled.  If no file ID is set as an argument, the first file in the queue will be cancelled.
+            // suppressEvent
+            // If set to true, the onUploadCancel event will be suppressed.  This is useful when clearing the queue.
+
+            $('#file_upload').uploadify('destroy');
+
+            $('#file_upload').uploadify('disable', true);
+            //setDisabled
+            //Set to true to disable the button or set to false to enable it.
+
+            $('#file_upload').uploadify('settings', 'buttonText', 'BROWSE');
+            // name
+            // The name of the setting you want to return or change. Only setting this argument will return the value.
+            // value
+            // The value you would like to use for the setting.
+            // resetObjects
+            // Set this to true when updating the postData object to erase existing values. Otherwise, new values will be added to existing ones.
+            // *The only setting that cannot be set is the swf setting.
+
+            $('#file_upload').uploadify('stop');
+
+            $('#file_upload').uploadify('upload');
+            // fileID
+            // The ID of the file you would like to upload.  The easiest way to get the fileID of a queue item is to use the id attribute of the queue item you want to upload.  To upload multiple files, add each fileID as an argument.  If ‘*’ is passed as the first and only argument, all files in the queue will be uploaded.
+
+            //#endregion
+        }
+    </script>
+}
