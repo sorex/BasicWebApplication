@@ -149,7 +149,6 @@
     <Folder Include="Areas\Common\Views\Shared\" />
     <Folder Include="Files\UserFiles\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Single\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Code\BaseApiController.cs" />
@@ -483,6 +482,7 @@
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\readme.md" />
     <Content Include="Scripts\tinymce\langs\readme.md" />
     <Content Include="Views\Sample\tinymce.cshtml" />
+    <Content Include="Views\Single\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\J.DB\J.DB.csproj">
