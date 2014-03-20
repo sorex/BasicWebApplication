@@ -1,0 +1,87 @@
+﻿@{
+    Layout = null;
+}
+
+<!-- Add -->
+<div class="modal fade" id="AddDialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h2 class="modal-title">详细</h2>
+            </div>
+            <form id="AddDialog_form">
+                <div class="modal-body form-horizontal">
+                    <div class="form-group">
+                        <label for="AddDialog_GUID" class="col-sm-3 control-label">GUID</label>
+                        <div class="col-sm-9">
+                            <p class="form-control-static" id="AddDialog_GUID"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="AddDialog_SingleIntNumber" class="col-sm-3 control-label">SingleIntNumber</label>
+                        <div class="col-sm-9">
+                            <p class="form-control-static" id="AddDialog_SingleIntNumber"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="AddDialog_SingleIntEnum" class="col-sm-3 control-label">SingleIntEnum</label>
+                        <div class="col-sm-9">
+                            <p class="form-control-static" id="AddDialog_SingleIntEnum"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="AddDialog_SingleMoney" class="col-sm-3 control-label">SingleMoney</label>
+                        <div class="col-sm-9">
+                            <p class="form-control-static" id="AddDialog_SingleMoney"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="AddDialog_SingleDatetime" class="col-sm-3 control-label">SingleDatetime</label>
+                        <div class="col-sm-9">
+                            <p class="form-control-static" id="AddDialog_SingleDatetime"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="AddDialog_SingleVarchar" class="col-sm-3 control-label">SingleVarchar</label>
+                        <div class="col-sm-9">
+                            <p class="form-control-static" id="AddDialog_SingleVarchar"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="AddDialog_SingleLongVarchar" class="col-sm-3 control-label">SingleLongVarchar</label>
+                        <div class="col-sm-9">
+                            <p class="form-control-static" id="AddDialog_SingleLongVarchar">
+
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="AddDialog_SingleBit" class="col-sm-3 control-label">SingleBit</label>
+                        <div class="col-sm-9">
+                            <p class="form-control-static" id="AddDialog_SingleBit">
+                                <i class="fa fa-check"></i><i class="fa fa-times"></i>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="alert alert-danger alert-dismissable hidden" id="AddDialog_alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <p id="AddDialog_alert_message"></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="AddDialog_Close" class="btn btn-lg btn-warning" data-dismiss="modal">关闭</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script type="text/javascript">
+    {
+        var Common_User_Add_url = "@Url.Action("Add", "User", new { area = "Common" }, null)";
+    }
+
+    $(function () {
+    });
+</script>

@@ -483,6 +483,10 @@
     <Content Include="Scripts\tinymce\langs\readme.md" />
     <Content Include="Views\Sample\tinymce.cshtml" />
     <Content Include="Views\Single\Index.cshtml" />
+    <Content Include="Views\Single\_Add.cshtml" />
+    <Content Include="Views\Single\_Edit.cshtml" />
+    <Content Include="Views\Single\_Delete.cshtml" />
+    <Content Include="Views\Single\_Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\J.DB\J.DB.csproj">
