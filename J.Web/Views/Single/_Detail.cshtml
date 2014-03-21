@@ -79,9 +79,18 @@
 
 <script type="text/javascript">
     {
-        var Common_User_Detail_url = "@Url.Action("Detail", "User", new { area = "Common" }, null)";
+        var Single_Detail_url = "@Url.Action("Detail", "Single", new { area = "" }, null)";
     }
 
     $(function () {
+        
     });
+
+    function OpenDetail(GUID)
+    {
+        $('#DetailDialog').modal("show");
+
+
+
+    }
 </script>

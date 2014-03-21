@@ -168,13 +168,14 @@
           </Key>
           <Property Name="GUID" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
           <Property Name="SingleIntNumber" Type="Int32" />
-          <Property Name="SingleIntEnum" Type="Int32" />
+          <Property Name="SingleIntEnum" Type="DBModel.SingleIntEnum" />
           <Property Name="SingleMoney" Type="Decimal" />
           <Property Name="SingleDatetime" Type="DateTime" />
           <Property Name="SingleVarchar" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
           <Property Name="SingleLongVarchar" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
           <Property Name="SingleBit" Type="Boolean" />
         </EntityType>
+        <EnumType Name="SingleIntEnum" a:ExternalTypeName="J.DB.Enum.single.SingleIntEnum" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

@@ -1,4 +1,5 @@
-﻿using J.Web.App_Code;
+﻿using J.DB;
+using J.Web.App_Code;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,27 +17,37 @@ namespace J.Web.Controllers
 			return View();
 		}
 
-        public ActionResult Detail()
-        {
-            return View();
-        }
+		public ActionResult Detail(string GUID)
+		{
+			using (DBEntities db = new DBEntities())
+			{
+				var item = db.singles.FirstOrDefault(p => p.GUID == GUID.ToLower());
 
-        [HttpPost]
-        public ActionResult Add()
-        {
-            return View();
-        }
+				return this.Content(new ReturnObject()
+				{
+					status = item == null ? ReturnObject.EReturnStatus.error : ReturnObject.EReturnStatus.success,
+					message = item == null ? "您要获取的数据不存在！" : "获取数据成功",
+					data = item
+				}.ToString());
+			}
+		}
 
-        [HttpPost]
-        public ActionResult Edit()
-        {
-            return View();
-        }
+		[HttpPost]
+		public ActionResult Add()
+		{
+			return View();
+		}
 
-        [HttpPost]
-        public ActionResult Delete()
-        {
-            return View();
-        }
+		[HttpPost]
+		public ActionResult Edit()
+		{
+			return View();
+		}
+
+		[HttpPost]
+		public ActionResult Delete()
+		{
+			return View();
+		}
 	}
 }
