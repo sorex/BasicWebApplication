@@ -1,5 +1,7 @@
 ﻿using J.DB;
+using J.Util;
 using J.Web.App_Code;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,11 +19,11 @@ namespace J.Web.Controllers
 			return View();
 		}
 
-		public ActionResult Detail(string GUID)
+		public ActionResult Detail(string guid)
 		{
 			using (DBEntities db = new DBEntities())
 			{
-				var item = db.singles.FirstOrDefault(p => p.GUID == GUID.ToLower());
+                var item = db.singles.FirstOrDefault(p => p.GUID == guid.ToLower());
 
 				return this.Content(new ReturnObject()
 				{
@@ -33,21 +35,63 @@ namespace J.Web.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult Add()
+		public ActionResult Add(string jsonobj)
 		{
-			return View();
+            using (DBEntities db = new DBEntities())
+            {
+                var item = JsonConvert.DeserializeObject<single>(jsonobj);
+
+                item.GUID = BasicTools.NewGuid();
+
+                db.singles.Add(item);
+                db.SaveChanges();
+
+                return this.Content(new ReturnObject()
+                {
+                    status = ReturnObject.EReturnStatus.success,
+                    message = "添加数据成功！",
+                    data = item
+                }.ToString());
+            }
 		}
 
 		[HttpPost]
-		public ActionResult Edit()
+        public ActionResult Edit(string jsonobj)
 		{
-			return View();
+            using (DBEntities db = new DBEntities())
+            {
+                var item = JsonConvert.DeserializeObject<single>(jsonobj);
+
+                db.singles.Attach(item);
+                db.Entry(item).State = System.Data.Entity.EntityState.Modified;
+                
+                db.SaveChanges();
+
+                return this.Content(new ReturnObject()
+                {
+                    status = ReturnObject.EReturnStatus.success,
+                    message = "添加数据成功！",
+                    data = item
+                }.ToString());
+            }
 		}
 
 		[HttpPost]
-		public ActionResult Delete()
+		public ActionResult Delete(string guid)
 		{
-			return View();
-		}
+            using (DBEntities db = new DBEntities())
+            {
+                var item = db.singles.FirstOrDefault(p => p.GUID == guid.ToLower());
+
+                db.singles.Remove(item);
+                db.SaveChanges();
+
+                return this.Content(new ReturnObject()
+                {
+                    status = ReturnObject.EReturnStatus.success,
+                    message = "删除数据成功！"
+                }.ToString());
+            }
+        }
 	}
 }

@@ -34,6 +34,7 @@
                         <label for="DetailDialog_SingleMoney" class="col-sm-3 control-label">SingleMoney</label>
                         <div class="col-sm-9">
                             <p class="form-control-static" id="DetailDialog_SingleMoney"></p>
+                            
                         </div>
                     </div>
                     <div class="form-group">
@@ -57,9 +58,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="DetailDialog_SingleBit" class="col-sm-3 control-label">SingleBit</label>
+                        <label for="DetailDialog_SingleBit_" class="col-sm-3 control-label">SingleBit</label>
                         <div class="col-sm-9">
-                            <p class="form-control-static" id="DetailDialog_SingleBit">
+                            <p class="form-control-static" id="DetailDialog_SingleBit_">
                                 <i class="fa fa-check"></i><i class="fa fa-times"></i>
                             </p>
                         </div>
@@ -86,11 +87,48 @@
         
     });
 
-    function OpenDetail(GUID)
-    {
+    function OpenDetail(GUID) {
         $('#DetailDialog').modal("show");
 
-
-
+        $.ajax({
+            type: "post",
+            cache: false,
+            url: Single_Detail_url,
+            data: {
+                guid: GUID
+            },
+            success: function (returnstring) {
+                var returnobj = JSON.parse(returnstring);
+                if (returnobj.status > 0) {
+                    FillDetailData(returnobj.data);
+                } else {
+                    $("#LoginDialog_alert_message").html(returnobj.message);
+                    $("#LoginDialog_alert").removeClass('hidden');
+                }
+            },
+            error: function (xmlHttpRequest, textStatus, errorThrown) {
+                $("#LoginDialog_alert_message").html("网络错误，请重试！");
+                $("#LoginDialog_alert").removeClass('hidden');
+            },
+            complete: function (xmlHttpRequest, textStatus) {
+                $('#LoginDialog_Login').button('reset');
+            }
+        });
     }
+
+    function FillDetailData(item) {
+        for (field in item) {
+            var p = $("#DetailDialog_" + field);
+            if (p.length >= 1)
+                p.html(item[field]);
+        }
+
+        // 处理特殊的显示方式(element id加_后缀以示区别) eg. bool, enum, check, radio, pre
+        if (item.SingleBit)
+            $("#DetailDialog_SingleBit_").html('<i class="fa fa-check"></i>');
+        else
+            $("#DetailDialog_SingleBit_").html('<i class="fa fa-times"></i>');
+    }
+
+
 </script>
