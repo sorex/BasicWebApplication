@@ -5,10 +5,16 @@
 }
 <h2>List</h2>
 
-<button type="button" class="btn btn-default">Add</button>
+<button type="button" class="btn btn-default" id="btnAddDialog">Add</button>
 <div class="table-responsive">
     <table id="listJsonTable" data-template="listJsonTableScript" class="table table-bordered table-striped table-hover"></table>
 </div>
+
+@Html.Partial("~/Views/Single/_Add.cshtml")
+@Html.Partial("~/Views/Single/_Delete.cshtml")
+@Html.Partial("~/Views/Single/_Detail.cshtml")
+@Html.Partial("~/Views/Single/_Edit.cshtml")
+
 @section scripts{
     <script id="listJsonTableScript" type="text/x-mustache">
         <thead>
@@ -68,6 +74,9 @@
             });
             $("#listJsonTable").render(listJson);
 
+            $("#btnAddDialog").click(function () {
+                ShowAddDialog();
+            });
         });
     </script>
 }
