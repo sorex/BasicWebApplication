@@ -1,26 +1,75 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Index";
 }
-
+@section head{
+}
 <h2>List</h2>
 
+<button type="button" class="btn btn-default">Add</button>
 <div class="table-responsive">
-    <table class="table">
+    <table id="listJsonTable" data-template="listJsonTableScript" class="table table-bordered table-striped table-hover"></table>
+</div>
+@section scripts{
+    <script id="listJsonTableScript" type="text/x-mustache">
         <thead>
             <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
+                <th>SingleIntNumber</th>
+                <th>SingleIntEnum</th>
+                <th>SingleMoney</th>
+                <th>SingleDatetime</th>
+                <th>SingleVarchar</th>
+                <th>SingleLongVarchar</th>
+                <th>SingleBit</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td></td>
+            {{#items}}
+            <tr data-guid="{{GUID}}">
+                <td>{{SingleIntNumber}}</td>
+                <td>{{SingleIntEnumString}}</td>
+                <td>{{SingleMoneyString}}</td>
+                <td>{{#formateDateTime}}{{SingleDatetime}}{{/formateDateTime}}</td>
+                <td><p>{{SingleVarchar}}</p></td>
+                <td><pre>{{SingleLongVarchar}}</pre></td>
+                <td>{{SingleBitString}}</td>
             </tr>
+            {{/items}}
         </tbody>
-    </table>
-</div>
+    </script>
+
+    <script type="text/javascript">
+        {
+            @Html.Raw(ViewBag.listJson)
+        }
+
+        $(function () {
+            $.initTemplate();
+
+            $("#listJsonTable").data("template_extend", {
+                SingleIntEnumString: function () {
+                    switch (this.SingleIntEnum) {
+                        case 1:
+                            return "One";
+                        case 2:
+                            return "Two";
+                        default:
+                            return "";
+                    }
+                },
+                SingleMoneyString: function () {
+                    return Math.round(this.SingleMoney * 100) / 100;
+                },
+                SingleBitString: function () {
+                    if (this.SingleBit == true)
+                        return "<i class='fa fa-check'></i>";
+                    else
+                        return "<i class='fa fa-times'></i>";
+                }
+            });
+            $("#listJsonTable").render(listJson);
+
+        });
+    </script>
+}
+
+

@@ -12,56 +12,55 @@
             </div>
             <form id="AddDialog_form">
                 <div class="modal-body form-horizontal">
-                    <div class="form-group">
-                        <label for="AddDialog_GUID" class="col-sm-3 control-label">GUID</label>
-                        <div class="col-sm-9">
-                            <p class="form-control-static" id="AddDialog_GUID"></p>
-                        </div>
-                    </div>
+
                     <div class="form-group">
                         <label for="AddDialog_SingleIntNumber" class="col-sm-3 control-label">SingleIntNumber</label>
                         <div class="col-sm-9">
-                            <p class="form-control-static" id="AddDialog_SingleIntNumber"></p>
+                            <input type="number" class="form-control" id="AddDialog_SingleIntNumber" name="SingleIntNumber" placeholder="Enter SingleIntNumber" />
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="AddDialog_SingleIntEnum" class="col-sm-3 control-label">SingleIntEnum</label>
+                        <span class="col-sm-3 control-label">SingleIntEnum</span>
                         <div class="col-sm-9">
-                            <p class="form-control-static" id="AddDialog_SingleIntEnum"></p>
+                            <label>
+                                <input type="radio" name="AddDialog_SingleIntEnum" id="AddDialog_SingleIntEnum_1" value="1" checked />One
+                            </label>
+                            <label>
+                                <input type="radio" name="AddDialog_SingleIntEnum" id="AddDialog_SingleIntEnum_2" value="2" />Two
+                            </label>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="AddDialog_SingleMoney" class="col-sm-3 control-label">SingleMoney</label>
                         <div class="col-sm-9">
-                            <p class="form-control-static" id="AddDialog_SingleMoney"></p>
+                            <input type="number" class="form-control" id="AddDialog_SingleMoney" name="SingleMoney" placeholder="Enter SingleMoney" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="AddDialog_SingleDatetime" class="col-sm-3 control-label">SingleDatetime</label>
                         <div class="col-sm-9">
-                            <p class="form-control-static" id="AddDialog_SingleDatetime"></p>
+                            <input type="datetime" class="form-control" id="AddDialog_SingleDatetime" name="SingleDatetime" placeholder="Enter SingleDatetime" readonly />
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="AddDialog_SingleVarchar" class="col-sm-3 control-label">SingleVarchar</label>
                         <div class="col-sm-9">
-                            <p class="form-control-static" id="AddDialog_SingleVarchar"></p>
+                            <input type="text" class="form-control" id="AddDialog_SingleVarchar" name="SingleVarchar" placeholder="Enter SingleVarchar" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="AddDialog_SingleLongVarchar" class="col-sm-3 control-label">SingleLongVarchar</label>
                         <div class="col-sm-9">
-                            <p class="form-control-static" id="AddDialog_SingleLongVarchar">
-
-                            </p>
+                            <textarea class="form-control" rows="5" id="AddDialog_SingleLongVarchar" name="SingleLongVarchar"></textarea>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="AddDialog_SingleBit" class="col-sm-3 control-label">SingleBit</label>
                         <div class="col-sm-9">
-                            <p class="form-control-static" id="AddDialog_SingleBit">
-                                <i class="fa fa-check"></i><i class="fa fa-times"></i>
-                            </p>
+                            <label>
+                                <input type="checkbox" name="SingleBit" id="AddDialog_SingleBit" checked>
+                                Is Right
+                            </label>
                         </div>
                     </div>
                     <div class="alert alert-danger alert-dismissable hidden" id="AddDialog_alert">
@@ -70,7 +69,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="AddDialog_Close" class="btn btn-lg btn-warning" data-dismiss="modal">关闭</button>
+                    <button type="button" id="AddDialog_Accept" class="btn btn-lg btn-warning" data-loading-text="正在添加...">添加</button>
+                    <button type="button" id="AddDialog_Cancel" class="btn btn-lg btn-warning" data-dismiss="modal">取消</button>
                 </div>
             </form>
         </div><!-- /.modal-content -->
@@ -79,9 +79,96 @@
 
 <script type="text/javascript">
     {
-        var Common_User_Add_url = "@Url.Action("Add", "User", new { area = "Common" }, null)";
+        var Single_Add_url = "@Url.Action("Add", "Single", new { area = "" }, null)";
     }
 
     $(function () {
+        var today = new Date();
+        $('#AddDialog_SingleDatetime').datetimepicker({
+            autoclose: true,
+            todayHighlight: true,
+            startDate: today.setDate(today.getDate() - 7),
+            endDate: today.setDate(today.getDate() + 7),
+            initialDate: today
+        });
+
+        $("#AddDialog_form").validate({
+            rules: {
+                SingleIntNumber: {
+                    required: true,
+                    number: true,
+                    min: -999,
+                    max: 999
+                },
+                SingleMoney: {
+                    required: true,
+                    number: true,
+                    range: [0, 999]
+                },
+                SingleDatetime: {
+                    required: true,
+                    date: true
+                },
+                SingleVarchar: {
+                    maxlength: 300
+                },
+                SingleLongVarchar: {
+                    maxlength: 2000
+                }
+            }
+        });
+
+        $("#AddDialog_Login").click(function () {
+            $("#AddDialog_alert_message").html("");
+            $("#AddDialog_alert").addClass('hidden');
+
+            if ($("#AddDialog_form").valid()) {
+                $(this).button("loading");
+                $.ajax({
+                    type: "post",
+                    cache: false,
+                    url: Single_Add_url,
+                    data: {
+                        jsonobj: JSON.stringify({
+                            SingleIntNumber: $("#AddDialog_SingleIntNumber").val(),
+                            SingleIntEnum: $("input:radio[name='AddDialog_SingleIntEnum']:checked").val(),
+                            SingleMoney: $("#AddDialog_SingleMoney").val(),
+                            SingleDatetime: $("#AddDialog_SingleDatetime").val(),
+                            SingleVarchar: $("#AddDialog_SingleVarchar").val(),
+                            SingleLongVarchar: $("#AddDialog_SingleLongVarchar").val(),
+                            SingleBit: $("#AddDialog_SingleLongVarchar").prop("checked")
+                        }),
+                    },
+                    success: function (returnstring) {
+                        var returnobj = JSON.parse(returnstring);
+                        if (returnobj.status > 0) {
+                            $("#AddDialog").modal("hide");
+                            $("#MessageBox_alert").addClass("alert-success");
+                            $("#MessageBox_message").html(returnobj.message);
+                        } else {
+                            $("#AddDialog_alert_message").html(returnobj.message);
+                            $("#AddDialog_alert").removeClass('hidden');
+                        }
+                    },
+                    error: function (xmlHttpRequest, textStatus, errorThrown) {
+                        $("#AddDialog_alert_message").html("网络错误，请重试！");
+                        $("#AddDialog_alert").removeClass('hidden');
+                    },
+                    complete: function (xmlHttpRequest, textStatus) {
+                        $('#AddDialog_Login').button('reset');
+                    }
+                });
+            }
+        });
+
+        $("#AddDialog").on("show.bs.modal", function (e) {
+            $("#AddDialog_SingleIntNumber").val("");
+            $("#AddDialog_SingleIntEnum_1").prop("checked", true);
+            $("#AddDialog_SingleMoney").val("");
+            $("#AddDialog_SingleDatetime").val("");
+            $("#AddDialog_SingleVarchar").val("");
+            $("#AddDialog_SingleLongVarchar").val("");
+            $("#AddDialog_SingleBit").prop("checked", true);
+        });
     });
 </script>

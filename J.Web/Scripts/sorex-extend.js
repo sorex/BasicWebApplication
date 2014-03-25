@@ -16,6 +16,16 @@ jQuery.extend({
                     return function (text, render) {
                         return new Date(render(text)).format("yyyy-MM-dd");
                     }
+                },
+                formateDateTime: function () {
+                    return function (text, render) {
+                        return new Date(render(text)).format("yyyy-MM-dd HH:ii:ss");
+                    }
+                },
+                formateTime: function () {
+                    return function (text, render) {
+                        return new Date(render(text)).format("HH:ii:ss");
+                    }
                 }
             });
             $this.html("");
@@ -68,7 +78,27 @@ $.validator.setDefaults({
  *         Authors: sorex
  *            Date: 2014-Mar-9
  *    Dependencies: bootstrap-datetimepicker.js
- *     Description: 扩展 Date 对象的 format 方法
+ *     Description: 扩展 Date 对象的 format 方法 (2014年9月8日 上午7点6分5秒)
+ *				h:小时，12小时制
+ *				hh:小时，补0
+ *				i:分钟
+ *				ii:分钟，补0
+ *				s:秒
+ *				ss:秒，补0
+ *				yyyy:年份
+ *				yy:年份，后两位
+ *				M:月份简写
+ *				MM:月份全称
+ *				m:数字月，补0
+ *				mm:数字月
+ *				D:星期简写
+ *				DD:星期全称
+ *				d:日期
+ *				dd:日期，补0
+ *				H:小时，24小时制
+ *				HH:小时，补0
+ *				p:am/pm
+ *				P:AM/PM				
  */
 Date.prototype.format = function (format) {
     return $.fn.datetimepicker.DPGlobal.formatDate(this, $.fn.datetimepicker.DPGlobal.parseFormat(format, 'standard'), "zh-CN", 'standard');

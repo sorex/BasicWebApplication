@@ -14,10 +14,29 @@ namespace J.Web.Controllers
 	{
 		//
 		// GET: /Single/
-		public ActionResult Index()
-		{
-			return View();
-		}
+        public ActionResult Index()
+        {
+            using (DBEntities db = new DBEntities())
+            {
+                var list = (from s in db.singles
+                            select s).ToList();
+
+                if (Request.IsAjaxRequest())
+                {
+                    return this.Content(new ReturnObject()
+                    {
+                        status = list == null ? ReturnObject.EReturnStatus.error : ReturnObject.EReturnStatus.success,
+                        message = list == null ? "您要获取的数据不存在！" : "获取数据成功",
+                        data = new { items = list }
+                    }.ToString());
+                }
+                else
+                {
+                    ViewBag.listJson = BasicTools.Object2JavaScriptJsonString("listJson", new { items = list });
+                    return View();
+                }
+            }
+        }
 
 		public ActionResult Detail(string guid)
 		{
