@@ -105,6 +105,7 @@
                 }
             },
             submitHandler: function (form) {
+                var SingleLongVarchar = tinymce.get('AddDialog_SingleLongVarchar').getContent();
                 $("#AddDialog_alert_message").html("");
                 $("#AddDialog_alert").addClass('hidden');
                 $("#AddDialog_Accept").button("loading");
@@ -119,7 +120,7 @@
                             SingleMoney: $("#AddDialog_SingleMoney").val(),
                             SingleDatetime: $("#AddDialog_SingleDatetime").val(),
                             SingleVarchar: $("#AddDialog_SingleVarchar").val(),
-                            SingleLongVarchar: $("#AddDialog_SingleLongVarchar").val(),
+                            SingleLongVarchar: SingleLongVarchar,
                             SingleBit: $("#AddDialog_SingleLongVarchar").prop("checked")
                         }),
                     },
@@ -147,11 +148,12 @@
 
         $("#AddDialog").on("hide.bs.modal", function (e) {
             $("#AddDialog_SingleIntNumber").val("");
-            $("#AddDialog_SingleIntEnum_1").prop("checked", true);
+            $("#AddDialog_SingleIntEnum_1").prop("checked", false);
+            $("#AddDialog_SingleIntEnum_2").prop("checked", false);
             $("#AddDialog_SingleMoney").val("");
             $("#AddDialog_SingleDatetime").val("");
             $("#AddDialog_SingleVarchar").val("");
-            $("#AddDialog_SingleLongVarchar").val("");
+            tinymce.get('AddDialog_SingleLongVarchar').setContent("");
             $("#AddDialog_SingleBit").prop("checked", true);
 
             $("#AddDialog_alert").addClass("hidden");
