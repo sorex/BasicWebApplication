@@ -64,7 +64,9 @@ $.validator.setDefaults({
     errorElement: 'span',
     errorClass: 'help-block',
     errorPlacement: function (error, element) {
-        if (element.parent('.input-group').length) {
+        if (element.closest('.form-group').length) {
+            error.appendTo(element.closest('.form-group'));
+        } else if (element.parent('.input-group').length) {
             error.insertAfter(element.parent());
         } else {
             error.insertAfter(element);
