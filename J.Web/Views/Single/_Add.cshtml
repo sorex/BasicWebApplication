@@ -17,13 +17,13 @@
                         <input type="number" class="form-control" id="AddDialog_SingleIntNumber" name="SingleIntNumber" placeholder="Enter SingleIntNumber" />
                     </div>
                     <div class="form-group">
-                        <strong class="control-label">SingleIntEnum</strong>
-                        <label>
-                            <input type="radio" name="AddDialog_SingleIntEnum" id="AddDialog_SingleIntEnum_1" value="1" checked />One
-                        </label>
-                        <label>
-                            <input type="radio" name="AddDialog_SingleIntEnum" id="AddDialog_SingleIntEnum_2" value="2" />Two
-                        </label>
+                        <label class="show control-label">SingleIntEnum</label>
+                        <div class="radio-inline">
+                            <label><input type="radio" name="SingleIntEnum" id="AddDialog_SingleIntEnum_1" value="1" />One</label>
+                        </div>
+                        <div class="radio-inline">
+                            <label><input type="radio" name="SingleIntEnum" id="AddDialog_SingleIntEnum_2" value="2" />Two</label>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="AddDialog_SingleMoney" class="control-label">SingleMoney</label>
@@ -87,6 +87,9 @@
                     number: true,
                     min: -999,
                     max: 999
+                },
+                SingleIntEnum: {
+                    required: true,
                 },
                 SingleMoney: {
                     required: true,
