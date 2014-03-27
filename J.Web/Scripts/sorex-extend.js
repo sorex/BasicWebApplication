@@ -112,7 +112,7 @@ Date.prototype.format = function (format) {
  *         Authors: sorex
  *            Date: 2014-Mar-9
  *    Dependencies: tinymce.js, jquery.tinymce.js
- *     Description: 初始化 tinymce, 同时让mce兼容bootstrap dialog
+ *     Description: 让mce兼容bootstrap dialog
  */
 $(function () {
     if ("undefined" != typeof tinymce) {
@@ -121,10 +121,6 @@ $(function () {
             if ($(e.target).closest(".mce-window").length) {
                 e.stopImmediatePropagation();
             }
-        });
-
-        tinymce.init({
-            selector: "textarea"
         });
     }
 });

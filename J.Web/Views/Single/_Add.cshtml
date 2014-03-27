@@ -8,9 +8,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h2 class="modal-title">详细</h2>
+                <h2 class="modal-title">添加</h2>
             </div>
-            <form id="AddDialog_form">
+            <form id="AddDialog_form" method="post" action="">
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="AddDialog_SingleIntNumber" class="control-label">SingleIntNumber</label>
@@ -31,7 +31,7 @@
                     </div>
                     <div class="form-group">
                         <label for="AddDialog_SingleDatetime" class="control-label">SingleDatetime</label>
-                        <input type="datetime" class="form-control" id="AddDialog_SingleDatetime" name="SingleDatetime" placeholder="Enter SingleDatetime" readonly />
+                        <input type="text" class="form-control" id="AddDialog_SingleDatetime" name="SingleDatetime" placeholder="Enter SingleDatetime" readonly />
                     </div>
                     <div class="form-group">
                         <label for="AddDialog_SingleVarchar" class="control-label">SingleVarchar</label>
@@ -39,7 +39,8 @@
                     </div>
                     <div class="form-group">
                         <label for="AddDialog_SingleLongVarchar" class="control-label">SingleLongVarchar</label>
-                        <textarea class="form-control" rows="5" id="AddDialog_SingleLongVarchar" name="SingleLongVarchar"></textarea>
+                        <textarea class="form-control" rows="5" id="AddDialog_SingleLongVarchar_textarea" name="SingleLongVarchar"></textarea>
+                        <input type="hidden" id="AddDialog_SingleLongVarchar" name="SingleLongVarchar" />
                     </div>
                     <div class="form-group">
                         <label>
@@ -73,13 +74,24 @@
         var endDate = new Date();
         endDate.setDate(initialDate.getDate() + 7);
         $('#AddDialog_SingleDatetime').datetimepicker({
+            format: 'yyyy-mm-dd hh:ii',
             autoclose: true,
+            todayBtn: true,
             todayHighlight: true,
             initialDate: initialDate,
             startDate: startDate,
             endDate: endDate
         });
 
+        tinymce.init({
+            selector: "textarea#AddDialog_SingleLongVarchar_textarea",
+            init_instance_callback: function (editor) {
+                editor.on('change', function (e) {
+                    $("#AddDialog_SingleLongVarchar").val(editor.getContent());
+                }); 
+            }
+        });   
+        
         $("#AddDialog_form").validate({
             rules: {
                 SingleIntNumber: {
@@ -107,8 +119,12 @@
                     maxlength: 2000
                 }
             },
+            messages: {
+                SingleBit: {
+                    minlength: "至少选择2项"
+                }
+            },
             submitHandler: function (form) {
-                var SingleLongVarchar = tinymce.get('AddDialog_SingleLongVarchar').getContent();
                 $("#AddDialog_alert_message").html("");
                 $("#AddDialog_alert").addClass('hidden');
                 $("#AddDialog_Accept").button("loading");
@@ -123,7 +139,7 @@
                             SingleMoney: $("#AddDialog_SingleMoney").val(),
                             SingleDatetime: $("#AddDialog_SingleDatetime").val(),
                             SingleVarchar: $("#AddDialog_SingleVarchar").val(),
-                            SingleLongVarchar: SingleLongVarchar,
+                            SingleLongVarchar: $("#AddDialog_SingleLongVarchar").val(),
                             SingleBit: $("#AddDialog_SingleLongVarchar").prop("checked")
                         }),
                     },
@@ -149,7 +165,7 @@
             }
         });
 
-        $("#AddDialog").on("hide.bs.modal", function (e) {
+        $("#AddDialog").on("hidden.bs.modal", function (e) {
             $("#AddDialog_SingleIntNumber").val("");
             $("#AddDialog_SingleIntEnum_1").prop("checked", false);
             $("#AddDialog_SingleIntEnum_2").prop("checked", false);
