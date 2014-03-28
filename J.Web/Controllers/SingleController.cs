@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -56,6 +57,7 @@ namespace J.Web.Controllers
 		[HttpPost]
 		public ActionResult Add(string jsonobj)
 		{
+            jsonobj = Encoding.UTF8.GetString(Convert.FromBase64String(jsonobj));
             using (DBEntities db = new DBEntities())
             {
                 var item = JsonConvert.DeserializeObject<single>(jsonobj);

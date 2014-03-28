@@ -128,20 +128,21 @@
                 $("#AddDialog_alert_message").html("");
                 $("#AddDialog_alert").addClass('hidden');
                 $("#AddDialog_Accept").button("loading");
+
                 $.ajax({
                     type: "post",
                     cache: false,
                     url: Single_Add_url,
                     data: {
-                        jsonobj: JSON.stringify({
+                        jsonobj: $.base64.encode(JSON.stringify({
                             SingleIntNumber: $("#AddDialog_SingleIntNumber").val(),
-                            SingleIntEnum: $("input:radio[name='AddDialog_SingleIntEnum']:checked").val(),
+                            SingleIntEnum: $("AddDialog input:radio[name='SingleIntEnum']:checked").val(),
                             SingleMoney: $("#AddDialog_SingleMoney").val(),
                             SingleDatetime: $("#AddDialog_SingleDatetime").val(),
                             SingleVarchar: $("#AddDialog_SingleVarchar").val(),
                             SingleLongVarchar: $("#AddDialog_SingleLongVarchar").val(),
                             SingleBit: $("#AddDialog_SingleLongVarchar").prop("checked")
-                        }),
+                        }))
                     },
                     success: function (returnstring) {
                         var returnobj = JSON.parse(returnstring);
