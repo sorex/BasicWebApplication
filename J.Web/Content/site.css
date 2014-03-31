@@ -7,3 +7,13 @@
 .body-content {
     padding: 15px;
 }
+
+.condition tbody tr td:nth-child(odd)
+{
+    width:14%; text-align:right; font-weight:bold;
+}
+
+.condition tbody tr td:nth-child(even)
+{
+    width:36%;
+}
