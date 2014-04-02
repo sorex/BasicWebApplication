@@ -15,7 +15,12 @@
                 <input type="text" id="Condition_SingleIntNumber_max" />
             </td>
             <td>SingleIntEnum</td>
-            <td>aaa</td>
+            <td>
+                <select id="Condition_SingleIntEnum">
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                </select>
+            </td>
         </tr>
         <tr>
             <td>SingleMoney</td>
@@ -33,9 +38,15 @@
         </tr>
         <tr>
             <td>SingleVarchar</td>
-            <td></td>
+            <td><input type="text" id="Condition_SingleVarchar" /></td>
             <td>SingleBit</td>
-            <td></td>
+            <td>
+                <select id="Condition_SingleBit">
+                    <option value="All">All</option>
+                    <option value="1">true</option>
+                    <option value="0">false</option>
+                </select>
+            </td>
         </tr>
     </tbody>
     <tfoot>
@@ -52,75 +63,84 @@
     <table id="dataTable" data-template="dataTableScript" class="table table-bordered table-striped table-hover"></table>
 </div>
 
-    @Html.Partial("~/Views/Single/_Add.cshtml")
-    @Html.Partial("~/Views/Single/_Delete.cshtml")
-    @Html.Partial("~/Views/Single/_Detail.cshtml")
-    @Html.Partial("~/Views/Single/_Edit.cshtml")
+@Html.Partial("~/Views/Single/_Add.cshtml")
+@Html.Partial("~/Views/Single/_Delete.cshtml")
+@Html.Partial("~/Views/Single/_Detail.cshtml")
+@Html.Partial("~/Views/Single/_Edit.cshtml")
 
-    @section scripts{
-<script id="dataTableScript" type="text/x-mustache">
-    <thead>
-        <tr>
-            <th>SingleIntNumber</th>
-            <th>SingleIntEnum</th>
-            <th>SingleMoney</th>
-            <th>SingleDatetime</th>
-            <th>SingleVarchar</th>
-            <th>SingleLongVarchar</th>
-            <th>SingleBit</th>
-        </tr>
-    </thead>
-    <tbody>
-        {{#items}}
-        <tr data-guid="{{GUID}}">
-            <td>{{SingleIntNumber}}</td>
-            <td>{{SingleIntEnumString}}</td>
-            <td>{{SingleMoneyString}}</td>
-            <td>{{#formateDateTime}}{{SingleDatetime}}{{/formateDateTime}}</td>
-            <td><p>{{SingleVarchar}}</p></td>
-            <td><pre>{{SingleLongVarchar}}</pre></td>
-            <td>{{SingleBitString}}</td>
-        </tr>
-        {{/items}}
-    </tbody>
-</script>
+@section scripts{
+    <script id="dataTableScript" type="text/x-mustache">
+        <thead>
+            <tr>
+                <th>SingleIntNumber</th>
+                <th>SingleIntEnum</th>
+                <th>SingleMoney</th>
+                <th>SingleDatetime</th>
+                <th>SingleVarchar</th>
+                <th>SingleLongVarchar</th>
+                <th>SingleBit</th>
+                <th width="200px;">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#items}}
+            <tr data-guid="{{GUID}}">
+                <td style="text-align:right;">{{SingleIntNumber}}</td>
+                <td style="text-align:right;">{{SingleIntEnumString}}</td>
+                <td style="text-align:right;">{{SingleMoneyString}}</td>
+                <td style="text-align:center;">{{SingleDatetimeString}}</td>
+                <td><p>{{SingleVarchar}}</p></td>
+                <td><pre>SingleLongVarchar</pre></td>
+                <td style="text-align:center;">{{{SingleBitString}}}</td>
+                <td style="text-align:center;">
+                    <button type="button" class="btn btn-link btn-xs" onclick="ShowDetailDialog('{{GUID}}')">Detail</button><br />
+                    <button type="button" class="btn btn-link btn-xs" onclick="ShowEditDialog('{{GUID}}')">Edit</button> |
+                    <button type="button" class="btn btn-link btn-xs" onclick="ShowDeleteDialog('{{GUID}}')">Delete</button>
+                </td>
+            </tr>
+            {{/items}}
+        </tbody>
+    </script>
 
-<script type="text/javascript">
-    {
-        @Html.Raw(ViewBag.dataJson)
-    }
+    <script type="text/javascript">
+        {
+            @Html.Raw(ViewBag.dataJson)
+        }
 
-    $(function () {
-        $.initTemplate();
+        $(function () {
+            $.initTemplate();
 
-        $("#dataTable").data("template_extend", {
-            SingleIntEnumString: function () {
-                switch (this.SingleIntEnum) {
-                    case 1:
-                        return "One";
-                    case 2:
-                        return "Two";
-                    default:
-                        return "";
+            $("#dataTable").data("template_extend", {
+                SingleDatetimeString: function () {
+                    return this.SingleDatetime.format("yyyy-mm-dd HH:ii:ss");
+                },
+                SingleIntEnumString: function () {
+                    switch (this.SingleIntEnum) {
+                        case 1:
+                            return "One";
+                        case 2:
+                            return "Two";
+                        default:
+                            return "";
+                    }
+                },
+                SingleMoneyString: function () {
+                    return Math.round(this.SingleMoney * 100) / 100;
+                },
+                SingleBitString: function () {
+                    if (this.SingleBit == true)
+                        return "<i class='fa fa-check'></i>";
+                    else
+                        return "<i class='fa fa-times'></i>";
                 }
-            },
-            SingleMoneyString: function () {
-                return Math.round(this.SingleMoney * 100) / 100;
-            },
-            SingleBitString: function () {
-                if (this.SingleBit == true)
-                    return "<i class='fa fa-check'></i>";
-                else
-                    return "<i class='fa fa-times'></i>";
-            }
-        });
-        $("#dataTable").render(dataJson);
+            });
+            $("#dataTable").render(dataJson);
 
-        $("#btnAddDialog").click(function () {
-            ShowAddDialog();
+            $("#btnAddDialog").click(function () {
+                ShowAddDialog();
+            });
         });
-    });
-</script>
-    }
+    </script>
+}
 
 

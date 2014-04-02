@@ -3,67 +3,50 @@
 }
 
 <!-- Detail -->
-<div class="modal fade" id="DetailDialog" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="DetailDialog" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h2 class="modal-title">详细</h2>
+                <h2 class="modal-title">添加</h2>
             </div>
-            <form id="DetailDialog_form">
-                <div class="modal-body form-horizontal">
+            <form id="DetailDialog_form" method="post" action="">
+                <div class="modal-body">
                     <div class="form-group">
-                        <label for="DetailDialog_GUID" class="col-sm-3 control-label">GUID</label>
-                        <div class="col-sm-9">
-                            <p class="form-control-static" id="DetailDialog_GUID"></p>
+                        <label for="DetailDialog_SingleIntNumber" class="control-label">SingleIntNumber</label>
+                        <input type="number" class="form-control" id="DetailDialog_SingleIntNumber" name="SingleIntNumber" placeholder="Enter SingleIntNumber" />
+                    </div>
+                    <div class="form-group">
+                        <label class="show control-label">SingleIntEnum</label>
+                        <div class="radio-inline">
+                            <label><input type="radio" name="SingleIntEnum" id="DetailDialog_SingleIntEnum_1" value="1" />One</label>
+                        </div>
+                        <div class="radio-inline">
+                            <label><input type="radio" name="SingleIntEnum" id="DetailDialog_SingleIntEnum_2" value="2" />Two</label>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="DetailDialog_SingleIntNumber" class="col-sm-3 control-label">SingleIntNumber</label>
-                        <div class="col-sm-9">
-                            <p class="form-control-static" id="DetailDialog_SingleIntNumber"></p>
-                        </div>
+                        <label for="DetailDialog_SingleMoney" class="control-label">SingleMoney</label>
+                        <input type="number" class="form-control" id="DetailDialog_SingleMoney" name="SingleMoney" placeholder="Enter SingleMoney" />
                     </div>
                     <div class="form-group">
-                        <label for="DetailDialog_SingleIntEnum" class="col-sm-3 control-label">SingleIntEnum</label>
-                        <div class="col-sm-9">
-                            <p class="form-control-static" id="DetailDialog_SingleIntEnum"></p>
-                        </div>
+                        <label for="DetailDialog_SingleDatetime" class="control-label">SingleDatetime</label>
+                        <input type="text" class="form-control" id="DetailDialog_SingleDatetime" name="SingleDatetime" placeholder="Enter SingleDatetime" readonly />
                     </div>
                     <div class="form-group">
-                        <label for="DetailDialog_SingleMoney" class="col-sm-3 control-label">SingleMoney</label>
-                        <div class="col-sm-9">
-                            <p class="form-control-static" id="DetailDialog_SingleMoney"></p>
-                            
-                        </div>
+                        <label for="DetailDialog_SingleVarchar" class="control-label">SingleVarchar</label>
+                        <input type="text" class="form-control" id="DetailDialog_SingleVarchar" name="SingleVarchar" placeholder="Enter SingleVarchar" />
                     </div>
                     <div class="form-group">
-                        <label for="DetailDialog_SingleDatetime" class="col-sm-3 control-label">SingleDatetime</label>
-                        <div class="col-sm-9">
-                            <p class="form-control-static" id="DetailDialog_SingleDatetime"></p>
-                        </div>
+                        <label for="DetailDialog_SingleLongVarchar" class="control-label">SingleLongVarchar</label>
+                        <textarea class="form-control" rows="5" id="DetailDialog_SingleLongVarchar_textarea" name="SingleLongVarchar"></textarea>
+                        <input type="hidden" id="DetailDialog_SingleLongVarchar" name="SingleLongVarchar" />
                     </div>
                     <div class="form-group">
-                        <label for="DetailDialog_SingleVarchar" class="col-sm-3 control-label">SingleVarchar</label>
-                        <div class="col-sm-9">
-                            <p class="form-control-static" id="DetailDialog_SingleVarchar"></p>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="DetailDialog_SingleLongVarchar" class="col-sm-3 control-label">SingleLongVarchar</label>
-                        <div class="col-sm-9">
-                            <p class="form-control-static" id="DetailDialog_SingleLongVarchar">
-                                
-                            </p>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="DetailDialog_SingleBit_" class="col-sm-3 control-label">SingleBit</label>
-                        <div class="col-sm-9">
-                            <p class="form-control-static" id="DetailDialog_SingleBit_">
-                                <i class="fa fa-check"></i><i class="fa fa-times"></i>
-                            </p>
-                        </div>
+                        <label>
+                            <input type="checkbox" name="SingleBit" id="DetailDialog_SingleBit" checked>
+                            Is Right
+                        </label>
                     </div>
                     <div class="alert alert-danger alert-dismissable hidden" id="DetailDialog_alert">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -71,7 +54,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="DetailDialog_Close" class="btn btn-lg btn-warning" data-dismiss="modal">关闭</button>
+                    <button type="submit" id="DetailDialog_Accept" class="btn btn-lg btn-warning" data-loading-text="正在添加...">添加</button>
+                    <button type="button" id="DetailDialog_Cancel" class="btn btn-lg btn-warning" data-dismiss="modal">取消</button>
                 </div>
             </form>
         </div><!-- /.modal-content -->
@@ -84,11 +68,23 @@
     }
 
     $(function () {
-        
+
     });
 
-    function OpenDetail(GUID) {
+    function ShowDetailDialog(GUID) {
         $('#DetailDialog').modal("show");
+
+        var olddata;
+        for (var i = 0; i < dataJson.items.length; i++) {
+            if (dataJson.items[i]["GUID"] == GUID) {
+                olddata = dataJson.items[i];
+                break;
+            }
+        }
+        if (olddata != null)
+        {
+            FillDetailData(olddata);
+        }
 
         $.ajax({
             type: "post",
@@ -120,14 +116,13 @@
         for (field in item) {
             var p = $("#DetailDialog_" + field);
             if (p.length >= 1)
-                p.html(item[field]);
+                p.val(item[field]);
         }
 
         // 处理特殊的显示方式(element id加_后缀以示区别) eg. bool, enum, check, radio, pre
-        if (item.SingleBit)
-            $("#DetailDialog_SingleBit_").html('<i class="fa fa-check"></i>');
-        else
-            $("#DetailDialog_SingleBit_").html('<i class="fa fa-times"></i>');
+        $(":radio[name='SingleIntEnum'][value='" + item.SingleIntEnum + "'] #DetailDialog").prop("checked", true);
+
+        $("#DetailDialog_SingleBit").prop("checked", item.SingleBit)
     }
 
 
