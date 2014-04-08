@@ -62,6 +62,11 @@
 <div class="table-responsive" id="Data">
     <table id="dataTable" data-template="dataTableScript" class="table table-bordered table-striped table-hover"></table>
 </div>
+<ul class="pagination">
+    <li class="disabled"><a href="#">&laquo;</a></li>
+    <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+    ...
+</ul>
 
 @Html.Partial("~/Views/Single/_Add.cshtml")
 @Html.Partial("~/Views/Single/_Delete.cshtml")
@@ -104,7 +109,10 @@
 
     <script type="text/javascript">
         {
+            var Single_Index_url = "@Url.Action("Index", "Single", new { area = "" }, null)";
+
             @Html.Raw(ViewBag.dataJson)
+            var PageSize = 25;
         }
 
         $(function () {
@@ -136,10 +144,73 @@
             });
             $("#dataTable").render(dataJson);
 
+            $('#Condition_SingleDatetime_min').datetimepicker({
+                format: 'yyyy-mm-dd hh:ii',
+                autoclose: true,
+                todayBtn: true,
+                todayHighlight: true
+            });
+            $('#Condition_SingleDatetime_max').datetimepicker({
+                format: 'yyyy-mm-dd hh:ii',
+                autoclose: true,
+                todayBtn: true,
+                todayHighlight: true
+            });
+
             $("#btnAddDialog").click(function () {
                 ShowAddDialog();
             });
+
+
         });
+
+        function SearchData(PageIndex) {
+            if (isNaN(PageIndex))
+                PageIndex = 1;
+
+            SingleIntNumber_min = parseInt($("#Condition_SingleIntNumber_min").val())
+            SingleIntNumber_max = parseInt($("#Condition_SingleIntNumber_max").val())
+            SingleIntEnum = $("#Condition_SingleIntEnum").val();
+            SingleMoney_min = parseFloat($("#Condition_SingleMoney_min").val())
+            SingleMoney_max = parseFloat($("#Condition_SingleMoney_max").val())
+            SingleDatetime_min = new Date($("#Condition_SingleDatetime_min").val())
+            SingleDatetime_max = new Date($("#Condition_SingleDatetime_min").val())
+
+            $.ajax({
+                type: "get",
+                cache: false,
+                url: Single_Index_url,
+                data: {
+                    PageIndex: PageIndex,
+                    PageSize:PageSize,
+                    SingleIntNumber_min: parseInt($("#Condition_SingleIntNumber_min").val()),
+                    SingleIntEnum: $("AddDialog input:radio[name='SingleIntEnum']:checked").val(),
+                    SingleMoney: $("#AddDialog_SingleMoney").val(),
+                    SingleDatetime: $("#AddDialog_SingleDatetime").val(),
+                    SingleVarchar: $("#AddDialog_SingleVarchar").val(),
+                    SingleLongVarchar: $("#AddDialog_SingleLongVarchar").val(),
+                    SingleBit: $("#AddDialog_SingleLongVarchar").prop("checked")
+                },
+                success: function (returnstring) {
+                    var returnobj = JSON.parse(returnstring);
+                    if (returnobj.status > 0) {
+                        $("#AddDialog").modal("hide");
+                        $("#MessageBox_alert").addClass("alert-success");
+                        $("#MessageBox_message").html(returnobj.message);
+                    } else {
+                        $("#AddDialog_alert_message").html(returnobj.message);
+                        $("#AddDialog_alert").removeClass('hidden');
+                    }
+                },
+                error: function (xmlHttpRequest, textStatus, errorThrown) {
+                    $("#AddDialog_alert_message").html("网络错误，请重试！");
+                    $("#AddDialog_alert").removeClass('hidden');
+                },
+                complete: function (xmlHttpRequest, textStatus) {
+                    $('#AddDialog_Accept').button('reset');
+                }
+            });
+        }
     </script>
 }
 
