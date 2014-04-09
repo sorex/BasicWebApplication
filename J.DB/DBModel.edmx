@@ -4,52 +4,52 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="DBModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DBModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="singles">
           <Key>
             <PropertyRef Name="GUID" />
           </Key>
           <Property Name="GUID" Type="char" MaxLength="32" Nullable="false" />
-          <Property Name="SingleIntNumber" Type="int" />
-          <Property Name="SingleIntEnum" Type="int" />
-          <Property Name="SingleMoney" Type="decimal" Precision="10" Scale="0" />
-          <Property Name="SingleDatetime" Type="datetime" Precision="0" />
-          <Property Name="SingleVarchar" Type="varchar" MaxLength="300" />
-          <Property Name="SingleLongVarchar" Type="text" />
-          <Property Name="SingleBit" Type="bit" />
+          <Property Name="SingleIntNumber" Type="int" Nullable="false" />
+          <Property Name="SingleIntEnum" Type="int" Nullable="false" />
+          <Property Name="SingleMoney" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="SingleDatetime" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="SingleVarchar" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="SingleLongVarchar" Type="text" Nullable="false" />
+          <Property Name="SingleBit" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="uploadfiles">
           <Key>
             <PropertyRef Name="GUID" />
           </Key>
           <Property Name="GUID" Type="char" MaxLength="32" Nullable="false" />
-          <Property Name="userID" Type="char" MaxLength="32" />
-          <Property Name="Name" Type="varchar" MaxLength="300" />
-          <Property Name="Extension" Type="varchar" MaxLength="300" />
-          <Property Name="Length" Type="bigint" />
-          <Property Name="CreateDateTime" Type="datetime" Precision="0" />
+          <Property Name="userID" Type="char" MaxLength="32" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="Extension" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="Length" Type="bigint" Nullable="false" />
+          <Property Name="CreateDateTime" Type="datetime" Precision="0" Nullable="false" />
         </EntityType>
         <EntityType Name="user_loginlogs">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="userID" Type="char" MaxLength="32" />
-          <Property Name="LoginDateTime" Type="datetime" Precision="0" />
+          <Property Name="userID" Type="char" MaxLength="32" Nullable="false" />
+          <Property Name="LoginDateTime" Type="datetime" Precision="0" Nullable="false" />
         </EntityType>
         <EntityType Name="users">
           <Key>
             <PropertyRef Name="GUID" />
           </Key>
           <Property Name="GUID" Type="char" MaxLength="32" Nullable="false" />
-          <Property Name="ShowName" Type="varchar" MaxLength="32" />
-          <Property Name="LoginName" Type="varchar" MaxLength="32" />
-          <Property Name="LoginPassword" Type="varchar" MaxLength="32" />
-          <Property Name="Email" Type="varchar" MaxLength="32" />
-          <Property Name="CreateDateTime" Type="datetime" Precision="0" />
+          <Property Name="ShowName" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="LoginName" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="LoginPassword" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="CreateDateTime" Type="datetime" Precision="0" Nullable="false" />
         </EntityType>
         <Association Name="uploadfiles_ibfk_1">
-          <End Role="users" Type="Self.users" Multiplicity="0..1" />
+          <End Role="users" Type="Self.users" Multiplicity="1" />
           <End Role="uploadfiles" Type="Self.uploadfiles" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="users">
@@ -61,7 +61,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="user_loginlogs_ibfk_1">
-          <End Role="users" Type="Self.users" Multiplicity="0..1" />
+          <End Role="users" Type="Self.users" Multiplicity="1" />
           <End Role="user_loginlogs" Type="Self.user_loginlogs" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="users">
@@ -91,26 +91,52 @@
     <edmx:ConceptualModels>
       <Schema Namespace="DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="DBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="user_loginlog" EntityType="DBModel.user_loginlog" />
-          <EntitySet Name="users" EntityType="DBModel.user" />
-          <AssociationSet Name="user_loginlogs_ibfk_1" Association="DBModel.user_loginlogs_ibfk_1">
-            <End Role="user" EntitySet="users" />
-            <End Role="user_loginlogs" EntitySet="user_loginlog" />
-          </AssociationSet>
+          <EntitySet Name="singles" EntityType="DBModel.single" />
           <EntitySet Name="uploadfiles" EntityType="DBModel.uploadfile" />
+          <EntitySet Name="user_loginlogs" EntityType="DBModel.user_loginlog" />
+          <EntitySet Name="users" EntityType="DBModel.user" />
           <AssociationSet Name="uploadfiles_ibfk_1" Association="DBModel.uploadfiles_ibfk_1">
             <End Role="user" EntitySet="users" />
             <End Role="uploadfile" EntitySet="uploadfiles" />
           </AssociationSet>
-          <EntitySet Name="singles" EntityType="DBModel.single" />
+          <AssociationSet Name="user_loginlogs_ibfk_1" Association="DBModel.user_loginlogs_ibfk_1">
+            <End Role="user" EntitySet="users" />
+            <End Role="user_loginlogs" EntitySet="user_loginlogs" />
+          </AssociationSet>
         </EntityContainer>
+        <EnumType Name="SingleIntEnum" a:ExternalTypeName="J.DB.Enum.single.SingleIntEnum" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+        <EntityType Name="single">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="SingleIntNumber" Type="Int32" Nullable="false" />
+          <Property Name="SingleIntEnum" Type="DBModel.SingleIntEnum" Nullable="false" />
+          <Property Name="SingleMoney" Type="Decimal" Nullable="false" />
+          <Property Name="SingleDatetime" Type="DateTime" Nullable="false" />
+          <Property Name="SingleVarchar" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="SingleLongVarchar" Type="String" Nullable="false" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="SingleBit" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="uploadfile">
+          <Key>
+            <PropertyRef Name="GUID" />
+          </Key>
+          <Property Name="GUID" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="userID" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Extension" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Length" Type="Int64" Nullable="false" />
+          <Property Name="CreateDateTime" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="user" Relationship="DBModel.uploadfiles_ibfk_1" FromRole="uploadfile" ToRole="user" />
+        </EntityType>
         <EntityType Name="user_loginlog">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="userID" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
-          <Property Name="LoginDateTime" Type="DateTime" />
+          <Property Name="userID" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="LoginDateTime" Type="DateTime" Nullable="false" />
           <NavigationProperty Name="user" Relationship="DBModel.user_loginlogs_ibfk_1" FromRole="user_loginlogs" ToRole="user" />
         </EntityType>
         <EntityType Name="user">
@@ -118,40 +144,16 @@
             <PropertyRef Name="GUID" />
           </Key>
           <Property Name="GUID" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
-          <Property Name="ShowName" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
-          <Property Name="LoginName" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
-          <Property Name="LoginPassword" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
-          <Property Name="Email" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
-          <Property Name="CreateDateTime" Type="DateTime" />
-          <NavigationProperty Name="user_loginlogs" Relationship="DBModel.user_loginlogs_ibfk_1" FromRole="user" ToRole="user_loginlogs" />
+          <Property Name="ShowName" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="LoginName" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="LoginPassword" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="CreateDateTime" Type="DateTime" Nullable="false" />
           <NavigationProperty Name="uploadfiles" Relationship="DBModel.uploadfiles_ibfk_1" FromRole="user" ToRole="uploadfile" />
-        </EntityType>
-        <Association Name="user_loginlogs_ibfk_1">
-          <End Type="DBModel.user" Role="user" Multiplicity="0..1" />
-          <End Type="DBModel.user_loginlog" Role="user_loginlogs" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="user">
-              <PropertyRef Name="GUID" />
-            </Principal>
-            <Dependent Role="user_loginlogs">
-              <PropertyRef Name="userID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="uploadfile">
-          <Key>
-            <PropertyRef Name="GUID" />
-          </Key>
-          <Property Name="GUID" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
-          <Property Name="userID" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
-          <Property Name="Name" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
-          <Property Name="Extension" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
-          <Property Name="Length" Type="Int64" />
-          <Property Name="CreateDateTime" Type="DateTime" />
-          <NavigationProperty Name="user" Relationship="DBModel.uploadfiles_ibfk_1" FromRole="uploadfile" ToRole="user" />
+          <NavigationProperty Name="user_loginlogs" Relationship="DBModel.user_loginlogs_ibfk_1" FromRole="user" ToRole="user_loginlogs" />
         </EntityType>
         <Association Name="uploadfiles_ibfk_1">
-          <End Type="DBModel.user" Role="user" Multiplicity="0..1" />
+          <End Type="DBModel.user" Role="user" Multiplicity="1" />
           <End Type="DBModel.uploadfile" Role="uploadfile" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="user">
@@ -162,43 +164,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="single">
-          <Key>
-            <PropertyRef Name="GUID" />
-          </Key>
-          <Property Name="GUID" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
-          <Property Name="SingleIntNumber" Type="Int32" />
-          <Property Name="SingleIntEnum" Type="DBModel.SingleIntEnum" />
-          <Property Name="SingleMoney" Type="Decimal" />
-          <Property Name="SingleDatetime" Type="DateTime" />
-          <Property Name="SingleVarchar" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
-          <Property Name="SingleLongVarchar" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
-          <Property Name="SingleBit" Type="Boolean" />
-        </EntityType>
-        <EnumType Name="SingleIntEnum" a:ExternalTypeName="J.DB.Enum.single.SingleIntEnum" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+        <Association Name="user_loginlogs_ibfk_1">
+          <End Type="DBModel.user" Role="user" Multiplicity="1" />
+          <End Type="DBModel.user_loginlog" Role="user_loginlogs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="GUID" />
+            </Principal>
+            <Dependent Role="user_loginlogs">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="DBModelStoreContainer" CdmEntityContainer="DBEntities">
-          <EntitySetMapping Name="user_loginlog">
-            <EntityTypeMapping TypeName="DBModel.user_loginlog">
-              <MappingFragment StoreEntitySet="user_loginlogs">
-                <ScalarProperty Name="LoginDateTime" ColumnName="LoginDateTime" />
-                <ScalarProperty Name="userID" ColumnName="userID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="users">
-            <EntityTypeMapping TypeName="DBModel.user">
-              <MappingFragment StoreEntitySet="users">
-                <ScalarProperty Name="CreateDateTime" ColumnName="CreateDateTime" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="LoginPassword" ColumnName="LoginPassword" />
-                <ScalarProperty Name="LoginName" ColumnName="LoginName" />
-                <ScalarProperty Name="ShowName" ColumnName="ShowName" />
+          <EntitySetMapping Name="singles">
+            <EntityTypeMapping TypeName="DBModel.single">
+              <MappingFragment StoreEntitySet="singles">
+                <ScalarProperty Name="SingleBit" ColumnName="SingleBit" />
+                <ScalarProperty Name="SingleLongVarchar" ColumnName="SingleLongVarchar" />
+                <ScalarProperty Name="SingleVarchar" ColumnName="SingleVarchar" />
+                <ScalarProperty Name="SingleDatetime" ColumnName="SingleDatetime" />
+                <ScalarProperty Name="SingleMoney" ColumnName="SingleMoney" />
+                <ScalarProperty Name="SingleIntEnum" ColumnName="SingleIntEnum" />
+                <ScalarProperty Name="SingleIntNumber" ColumnName="SingleIntNumber" />
                 <ScalarProperty Name="GUID" ColumnName="GUID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -215,16 +208,23 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="singles">
-            <EntityTypeMapping TypeName="DBModel.single">
-              <MappingFragment StoreEntitySet="singles">
-                <ScalarProperty Name="SingleBit" ColumnName="SingleBit" />
-                <ScalarProperty Name="SingleLongVarchar" ColumnName="SingleLongVarchar" />
-                <ScalarProperty Name="SingleVarchar" ColumnName="SingleVarchar" />
-                <ScalarProperty Name="SingleDatetime" ColumnName="SingleDatetime" />
-                <ScalarProperty Name="SingleMoney" ColumnName="SingleMoney" />
-                <ScalarProperty Name="SingleIntEnum" ColumnName="SingleIntEnum" />
-                <ScalarProperty Name="SingleIntNumber" ColumnName="SingleIntNumber" />
+          <EntitySetMapping Name="user_loginlogs">
+            <EntityTypeMapping TypeName="DBModel.user_loginlog">
+              <MappingFragment StoreEntitySet="user_loginlogs">
+                <ScalarProperty Name="LoginDateTime" ColumnName="LoginDateTime" />
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="DBModel.user">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="CreateDateTime" ColumnName="CreateDateTime" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="LoginPassword" ColumnName="LoginPassword" />
+                <ScalarProperty Name="LoginName" ColumnName="LoginName" />
+                <ScalarProperty Name="ShowName" ColumnName="ShowName" />
                 <ScalarProperty Name="GUID" ColumnName="GUID" />
               </MappingFragment>
             </EntityTypeMapping>

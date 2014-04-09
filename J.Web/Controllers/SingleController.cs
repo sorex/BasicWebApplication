@@ -21,32 +21,25 @@ namespace J.Web.Controllers
         {
             using (DBEntities db = new DBEntities())
             {
-                int RecordCount = (from s in db.singles
-                                   where (SingleIntNumber_min == null ? true : SingleIntNumber_min <= s.SingleIntNumber) &&
-                                   (SingleIntNumber_max == null ? true : SingleIntNumber_max >= s.SingleIntNumber) &&
-                                   (SingleIntEnum == null ? true : SingleIntEnum == (int)s.SingleIntEnum) &&
-                                   (SingleMoney_min == null ? true : SingleMoney_min <= s.SingleMoney) &&
-                                   (SingleMoney_max == null ? true : SingleMoney_max >= s.SingleMoney) &&
-                                   (SingleDatetime_min == null ? true : SingleDatetime_min <= s.SingleDatetime) &&
-                                   (SingleDatetime_max == null ? true : SingleDatetime_max >= s.SingleDatetime) &&
-                                   (SingleVarchar == null ? true : s.SingleVarchar.Contains(SingleVarchar)) &&
-                                   (SingleBit == null ? true : SingleBit == s.SingleBit)
-                                   orderby s.SingleDatetime descending
-                                   select s).Count();
+                var query = from s in db.singles
+                            where (SingleIntNumber_min == null || SingleIntNumber_min.Value <= s.SingleIntNumber) &&
+                            (SingleIntNumber_max == null || SingleIntNumber_max.Value >= s.SingleIntNumber) &&
+                            (SingleIntEnum == null || (J.DB.Enum.single.SingleIntEnum)SingleIntEnum.Value == s.SingleIntEnum) &&
+                            (SingleMoney_min == null || SingleMoney_min.Value <= s.SingleMoney) &&
+                            (SingleMoney_max == null || SingleMoney_max.Value >= s.SingleMoney) &&
+                            (SingleDatetime_min == null || SingleDatetime_min.Value <= s.SingleDatetime) &&
+                            (SingleDatetime_max == null || SingleDatetime_max.Value >= s.SingleDatetime) &&
+                            (SingleVarchar == null || s.SingleVarchar.Contains(SingleVarchar)) &&
+                            (SingleBit == null || SingleBit.Value == s.SingleBit)
+                            orderby s.SingleDatetime descending
+                            select s;
+
+                int RecordCount = query.Count();
+               
                 if (RecordCount <= (PageIndex - 1) * PageSize)
                     PageIndex = 1;
-                var data = (from s in db.singles
-                            where (SingleIntNumber_min == null ? true : SingleIntNumber_min <= s.SingleIntNumber) &&
-                            (SingleIntNumber_max == null ? true : SingleIntNumber_max >= s.SingleIntNumber) &&
-                            (SingleIntEnum == null ? true : SingleIntEnum == (int)s.SingleIntEnum) &&
-                            (SingleMoney_min == null ? true : SingleMoney_min <= s.SingleMoney) &&
-                            (SingleMoney_max == null ? true : SingleMoney_max >= s.SingleMoney) &&
-                            (SingleDatetime_min == null ? true : SingleDatetime_min <= s.SingleDatetime) &&
-                            (SingleDatetime_max == null ? true : SingleDatetime_max >= s.SingleDatetime) &&
-                            (SingleVarchar == null ? true : s.SingleVarchar.Contains(SingleVarchar)) &&
-                            (SingleBit == null ? true : SingleBit == s.SingleBit)
-                            orderby s.SingleDatetime descending
-                            select s).Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();
+
+                var data = query.Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();
 
                 if (Request.IsAjaxRequest())
                 {

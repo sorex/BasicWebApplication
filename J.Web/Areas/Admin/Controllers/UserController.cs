@@ -26,7 +26,7 @@ namespace J.Web.Areas.Admin.Controllers
 							u.LoginName,
 							u.Email,
 							u.CreateDateTime,
-							LastLogin = u.user_loginlogs.Max(p => p.LoginDateTime) ?? u.CreateDateTime,
+							LastLogin = u.user_loginlogs.Count >= 0 ? u.user_loginlogs.Max(p => p.LoginDateTime) : u.CreateDateTime,
 							LoginCount = u.user_loginlogs.Count
 						};
 
@@ -52,7 +52,7 @@ namespace J.Web.Areas.Admin.Controllers
 								   LoginCount = u.user_loginlogs.Count
 							   }).FirstOrDefault();
 
-				var list = from l in db.user_loginlog
+				var list = from l in db.user_loginlogs
 						   where l.userID == userID.ToLower()
 						   orderby l.LoginDateTime descending 
 						   select

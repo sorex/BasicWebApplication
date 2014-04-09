@@ -91,7 +91,7 @@ namespace J.Web.Areas.Common.Controllers
                 };
 
                 db.users.Add(User);
-                db.user_loginlog.Add(User_Loginlog);
+                db.user_loginlogs.Add(User_Loginlog);
                 db.SaveChanges();
 
                 this.Session[SessionConfig.CurrentUser] = User;
