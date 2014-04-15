@@ -88,10 +88,10 @@
             init_instance_callback: function (editor) {
                 editor.on('change', function (e) {
                     $("#AddDialog_SingleLongVarchar").val(editor.getContent());
-                }); 
+                });
             }
-        });   
-        
+        });
+
         $("#AddDialog_form").validate({
             rules: {
                 SingleIntNumber: {
@@ -129,21 +129,20 @@
                 $("#AddDialog_alert").addClass('hidden');
                 $("#AddDialog_Accept").button("loading");
 
+                var poststring = $.base64.encode(escape(JSON.stringify({
+                        SingleIntNumber: $("#AddDialog_SingleIntNumber").val(),
+                        SingleIntEnum: $("#AddDialog input:radio[name='SingleIntEnum']:checked").val(),
+                        SingleMoney: $("#AddDialog_SingleMoney").val(),
+                        SingleDatetime: $("#AddDialog_SingleDatetime").val(),
+                        SingleVarchar: $("#AddDialog_SingleVarchar").val(),
+                        SingleLongVarchar: $("#AddDialog_SingleLongVarchar").val(),
+                        SingleBit: $("#AddDialog_SingleBit").prop("checked")
+                    })));
                 $.ajax({
                     type: "post",
                     cache: false,
                     url: Single_Add_url,
-                    data: {
-                        jsonobj: $.base64.encode(JSON.stringify({
-                            SingleIntNumber: $("#AddDialog_SingleIntNumber").val(),
-                            SingleIntEnum: $("AddDialog input:radio[name='SingleIntEnum']:checked").val(),
-                            SingleMoney: $("#AddDialog_SingleMoney").val(),
-                            SingleDatetime: $("#AddDialog_SingleDatetime").val(),
-                            SingleVarchar: $("#AddDialog_SingleVarchar").val(),
-                            SingleLongVarchar: $("#AddDialog_SingleLongVarchar").val(),
-                            SingleBit: $("#AddDialog_SingleLongVarchar").prop("checked")
-                        }))
-                    },
+                    data: { "jsonobj": poststring },
                     success: function (returnstring) {
                         var returnobj = JSON.parse(returnstring);
                         if (returnobj.status > 0) {
@@ -161,6 +160,7 @@
                     },
                     complete: function (xmlHttpRequest, textStatus) {
                         $('#AddDialog_Accept').button('reset');
+                        SearchData();
                     }
                 });
             }

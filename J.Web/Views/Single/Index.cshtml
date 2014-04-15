@@ -62,7 +62,7 @@
 <div class="table-responsive" id="Data">
     <table id="dataTable" data-template="dataTableScript" class="table table-bordered table-striped table-hover"></table>
 </div>
-<ul class="pagination">
+<ul id="dataTablePager" class="pagination">
     <li class="disabled"><a href="#">&laquo;</a></li>
     <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
     ...
@@ -143,6 +143,7 @@
                 }
             });
             $("#dataTable").render(dataJson);
+            FillPager($("#dataTablePager"), dataJson);
 
             $('#Condition_SingleDatetime_min').datetimepicker({
                 format: 'yyyy-mm-dd hh:ii',
@@ -150,6 +151,7 @@
                 todayBtn: true,
                 todayHighlight: true
             });
+
             $('#Condition_SingleDatetime_max').datetimepicker({
                 format: 'yyyy-mm-dd hh:ii',
                 autoclose: true,
@@ -165,7 +167,7 @@
         });
 
         function SearchData(PageIndex) {
-            if (isNaN(PageIndex))
+            if (!PageIndex)
                 PageIndex = 1;
 
             SingleIntNumber_min = parseInt($("#Condition_SingleIntNumber_min").val())
@@ -182,7 +184,7 @@
                 url: Single_Index_url,
                 data: {
                     PageIndex: PageIndex,
-                    PageSize:PageSize,
+                    PageSize: PageSize,
                     SingleIntNumber_min: parseInt($("#Condition_SingleIntNumber_min").val()),
                     SingleIntEnum: $("AddDialog input:radio[name='SingleIntEnum']:checked").val(),
                     SingleMoney: $("#AddDialog_SingleMoney").val(),
@@ -210,6 +212,65 @@
                     $('#AddDialog_Accept').button('reset');
                 }
             });
+        }
+
+        function FillPager($pager, data) {
+            $pager.empty();
+            var maxPage = Math.ceil(data.RecordCount / data.PageSize);
+            var beginPage = 2, endPage = maxPage - 1;
+            if (maxPage > 13) {
+                var beforePages = 5, afterPages = 5;
+                beforePages = data.PageIndex - beginPage >= 5 ? 5 : data.PageIndex - beginPage;
+                afterPages = endPage - data.PageIndex >= 5 ? 5 : endPage - data.PageIndex;
+                if (beforePages < 5) {
+                    if (endPage - data.PageIndex >= (5 - beforePages) + 5)
+                        afterPages += (5 - beforePages);
+                    else
+                        afterPages = endPage - data.PageIndex;
+                }
+                if (afterPages < 5) {
+                    if (data.PageIndex - beginPage >= (5 - afterPages) + 5)
+                        beforePages += (5 - afterPages);
+                    else
+                        beforePages = data.PageIndex - beginPage;
+                }
+
+                beginPage = data.PageIndex - beforePages;
+                endPage = data.PageIndex + afterPages;
+            }
+
+            if (data.PageIndex == 1) {
+                $pager.append('<li class="disabled"><a href="#">&laquo;</a></li>');
+                $pager.append('<li class="active"><a href="#">1</a></li>');
+            }
+            else {
+                $pager.append('<li><a href="javascript:SearchData(1)">&laquo;</a></li>');
+                $pager.append('<li><a href="javascript:SearchData(1)">1</a></li>');
+            }
+            if (beginPage > 2)
+                $pager.append("...");
+            for (var i = beginPage; i <= endPage; i++) {
+                if (i != data.PageIndex) {
+                    $pager.append('<li><a href="javascript:SearchData(' + i + ')">' + i + '</a></li>');
+                }
+                else {
+                    $pager.append('<li class="active"><a href="#">' + i + '</a></li>');
+                }
+            }
+            if (endPage + 1 < maxPage)
+                $pager.append("...");
+            if (maxPage == 1)
+            {
+                $pager.append('<li class="disabled"><a href="#">&raquo;</a></li>');
+            }
+            else if (data.PageIndex == maxPage) {
+                $pager.append('<li class="active"><a href="#">' + maxPage + '</a></li>');
+                $pager.append('<li class="disabled"><a href="#">&raquo;</a></li>');
+            }
+            else {
+                $pager.append('<li><a href="javascript:SearchData(' + maxPage + ')">' + maxPage + '</a></li>');
+                $pager.append('<li><a href="javascript:SearchData(' + maxPage + ')">&raquo;</a></li>');
+            }
         }
     </script>
 }

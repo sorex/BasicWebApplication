@@ -35,7 +35,7 @@ namespace J.Web.Controllers
                             select s;
 
                 int RecordCount = query.Count();
-               
+
                 if (RecordCount <= (PageIndex - 1) * PageSize)
                     PageIndex = 1;
 
@@ -76,7 +76,7 @@ namespace J.Web.Controllers
         [HttpPost]
         public ActionResult Add(string jsonobj)
         {
-            jsonobj = Encoding.UTF8.GetString(Convert.FromBase64String(jsonobj));
+            jsonobj = HttpUtility.UrlDecode(Encoding.UTF8.GetString(Convert.FromBase64String(jsonobj)));
             using (DBEntities db = new DBEntities())
             {
                 var item = JsonConvert.DeserializeObject<single>(jsonobj);
